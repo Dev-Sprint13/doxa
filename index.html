@@ -708,230 +708,158 @@ nav.scrolled{background:rgba(7,11,20,0.92);border-bottom-color:rgba(250,204,21,0
 .step p{color:var(--muted);font-size:.85rem;line-height:1.6}
 
 /* ═══════════════════════════════════════════════
-   PORTFOLIO
+   PORTFOLIO — Card Stack
 ═══════════════════════════════════════════════ */
-#portfolio{background:var(--bg1)}
-.port-header{
-  display:flex;justify-content:space-between;align-items:flex-end;
-  margin-bottom:52px;
+#portfolio{background:var(--bg1);overflow:hidden}
+.port-stage{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:72px;
+  align-items:center;
+  min-height:580px;
 }
-/* ── Carousel ── */
-.port-carousel-outer{position:relative;margin:0 -8px}
-.port-carousel-track{
-  display:flex;gap:22px;
-  overflow-x:auto;
-  scroll-snap-type:x mandatory;
-  scroll-behavior:smooth;
-  -webkit-overflow-scrolling:touch;
-  padding:6px 8px 10px;
-  scrollbar-width:none;
-}
-.port-carousel-track::-webkit-scrollbar{display:none}
-/* Arrows */
-.port-arrow{
-  position:absolute;
-  top:128px;
-  transform:translateY(-50%);
-  z-index:10;
-  width:46px;height:46px;border-radius:50%;
-  background:var(--bg2);border:1px solid var(--border);
-  display:flex;align-items:center;justify-content:center;
-  cursor:none;transition:all .3s;
-  color:var(--text2);font-size:1rem;
-  box-shadow:0 8px 32px rgba(0,0,0,.6);
-}
-.port-arrow:hover{background:var(--gold);color:var(--bg);border-color:var(--gold)}
-.port-arrow.prev{left:-23px}
-.port-arrow.next{right:-23px}
-.port-arrow[disabled]{opacity:.2;pointer-events:none}
-/* Dots */
-.port-dots{
-  display:flex;justify-content:center;gap:8px;
-  margin-top:36px;
-}
-.port-dot{
-  width:6px;height:6px;border-radius:3px;
-  background:var(--border);transition:all .35s;
-  cursor:none;
-}
-.port-dot.active{width:26px;background:var(--gold)}
-/* ── Project card ── */
-.pj{
-  flex-shrink:0;
-  width:400px;
-  border-radius:var(--r-xl);overflow:hidden;
-  cursor:none;
-  border:1px solid var(--border);
-  background:var(--bg2);
-  transition:transform .4s cubic-bezier(.23,1,.32,1),box-shadow .4s,border-color .4s;
-  scroll-snap-align:start;
-}
-.pj:hover{
-  transform:translateY(-8px);
-  box-shadow:0 30px 80px rgba(0,0,0,.55);
-  border-color:var(--gold-a20);
-}
-/* Mockup image area */
-.pj-mockup-wrap{
-  position:relative;height:256px;overflow:hidden;
-  border-bottom:1px solid var(--border);
-  background:#040810;
-}
-.pj-mockup-wrap svg{
-  width:100%;height:100%;display:block;
-  transition:transform .5s cubic-bezier(.23,1,.32,1);
-}
-.pj:hover .pj-mockup-wrap svg{transform:scale(1.04)}
-/* Hover arrow badge */
-.pj-arrow-btn{
-  position:absolute;top:16px;right:16px;z-index:2;
-  width:36px;height:36px;border-radius:50%;
-  background:var(--gold);color:var(--bg);
-  display:flex;align-items:center;justify-content:center;
-  font-size:.85rem;font-weight:700;
-  opacity:0;transform:scale(.75);
+/* ── Left info panel ── */
+.port-info{position:relative}
+.port-info-badge{margin-bottom:28px}
+.port-info-inner{
+  opacity:1;transform:translateY(0);
   transition:opacity .3s,transform .3s;
-  pointer-events:none;
 }
-.pj:hover .pj-arrow-btn{opacity:1;transform:scale(1)}
-/* Card footer — always visible */
-.pj-foot{padding:22px 24px 26px}
-.pj-tag{
+.port-info-inner.changing{opacity:0;transform:translateY(14px)}
+.port-proj-num{
+  font-family:'JetBrains Mono',monospace;font-size:.68rem;
+  color:var(--muted);letter-spacing:.12em;margin-bottom:10px;
+}
+.port-proj-cat{
   display:inline-flex;
   background:var(--surface);border:1px solid var(--border);
-  border-radius:100px;padding:4px 12px;
+  border-radius:100px;padding:4px 14px;
   font-size:.62rem;color:var(--muted);
   font-family:'JetBrains Mono',monospace;
-  letter-spacing:.06em;text-transform:uppercase;
-  margin-bottom:12px;
+  letter-spacing:.08em;text-transform:uppercase;
+  margin-bottom:18px;
 }
-.pj-title{
+.port-proj-title{
   font-family:'Clash Display',sans-serif;
-  font-size:1.12rem;font-weight:700;
-  margin-bottom:8px;line-height:1.25;
+  font-size:clamp(1.65rem,2.8vw,2.5rem);
+  font-weight:700;line-height:1.15;margin-bottom:16px;
 }
-.pj-excerpt{
-  color:var(--text2);font-size:.82rem;
-  line-height:1.55;font-weight:300;margin-bottom:18px;
+.port-proj-desc{
+  color:var(--text2);font-size:.95rem;
+  line-height:1.75;font-weight:300;
+  margin-bottom:28px;max-width:420px;
 }
-.pj-open{
-  display:inline-flex;align-items:center;gap:8px;
-  font-size:.75rem;font-weight:500;
-  color:var(--gold);letter-spacing:.04em;
+.port-proj-metrics{
+  display:flex;gap:0;margin-bottom:32px;
+  border:1px solid var(--border);border-radius:14px;overflow:hidden;
+}
+.port-proj-metric{
+  flex:1;padding:16px 18px;
+  border-right:1px solid var(--border);
+}
+.port-proj-metric:last-child{border-right:none}
+.pm-val{
+  font-family:'Clash Display',sans-serif;
+  font-size:1.35rem;font-weight:700;margin-bottom:4px;
+}
+.pm-lbl{
+  font-size:.62rem;color:var(--muted);
   font-family:'JetBrains Mono',monospace;
-  transition:gap .2s;
+  text-transform:uppercase;letter-spacing:.07em;
 }
-.pj:hover .pj-open{gap:14px}
-.pj-open-dot{
-  display:flex;align-items:center;justify-content:center;
-  width:20px;height:20px;border-radius:50%;
-  background:var(--gold);color:var(--bg);
-  font-size:.7rem;font-weight:700;
-}
-/* ═══════════════════════════════════════════════
-   PROJECT DETAIL PANEL
-═══════════════════════════════════════════════ */
-#proj-panel{
-  position:fixed;inset:0;z-index:1000;
-  pointer-events:none;
-}
-#proj-panel.open{pointer-events:all}
-.pp-backdrop{
-  position:absolute;inset:0;
-  background:rgba(7,11,20,0);
-  backdrop-filter:blur(0px);
-  transition:background .4s,backdrop-filter .4s;
-}
-#proj-panel.open .pp-backdrop{
-  background:rgba(7,11,20,.80);
-  backdrop-filter:blur(12px);
-}
-.pp-panel{
-  position:absolute;top:0;right:0;
-  width:min(600px,100vw);height:100%;
-  background:var(--bg2);
-  border-left:1px solid var(--border);
-  transform:translateX(100%);
-  transition:transform .5s cubic-bezier(.23,1,.32,1);
-  overflow-y:auto;scrollbar-width:none;
-  display:flex;flex-direction:column;
-}
-.pp-panel::-webkit-scrollbar{display:none}
-#proj-panel.open .pp-panel{transform:translateX(0)}
-.pp-close{
-  position:absolute;top:20px;right:20px;z-index:2;
-  width:36px;height:36px;border-radius:50%;
-  background:var(--surface);border:1px solid var(--border);
-  display:flex;align-items:center;justify-content:center;
-  font-size:1.1rem;color:var(--text2);cursor:none;
-  transition:all .2s;
-}
-.pp-close:hover{background:var(--gold-a10);border-color:var(--gold-a20);color:var(--gold)}
-.pp-mockup{
-  height:300px;overflow:hidden;flex-shrink:0;
-  border-bottom:1px solid var(--border);
-  background:#040810;
-}
-.pp-mockup svg{width:100%;height:100%;display:block}
-.pp-content{padding:36px 40px 64px}
-.pp-cat-badge{
-  display:inline-flex;
-  background:var(--gold-a10);border:1px solid var(--gold-a20);
-  border-radius:100px;padding:5px 14px;
-  font-size:.64rem;letter-spacing:.14em;color:var(--gold);
-  text-transform:uppercase;font-family:'JetBrains Mono',monospace;
-  margin-bottom:16px;
-}
-.pp-title{
-  font-family:'Clash Display',sans-serif;
-  font-size:1.9rem;font-weight:700;line-height:1.1;
-  margin-bottom:14px;
-}
-.pp-desc{
-  color:var(--text2);font-size:.93rem;line-height:1.7;
-  font-weight:300;margin-bottom:28px;
-}
-.pp-metrics{
-  display:grid;grid-template-columns:repeat(3,1fr);
-  gap:12px;margin-bottom:28px;
-}
-.pp-metric{
-  background:var(--surface);border:1px solid var(--border);
-  border-radius:var(--r);padding:16px;
-}
-.pp-metric-l{
-  font-size:.6rem;color:var(--muted);letter-spacing:.1em;
-  text-transform:uppercase;font-family:'JetBrains Mono',monospace;
-  margin-bottom:6px;
-}
-.pp-metric-v{
-  font-family:'Clash Display',sans-serif;
-  font-size:1.25rem;font-weight:700;
-}
-.pp-section-l{
-  font-size:.65rem;color:var(--muted);letter-spacing:.12em;
-  text-transform:uppercase;font-family:'JetBrains Mono',monospace;
-  margin-bottom:12px;
-}
-.pp-tech{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:32px}
-.pp-pill{
-  background:var(--surface);border:1px solid var(--border);
-  border-radius:100px;padding:5px 14px;
-  font-size:.75rem;color:var(--text2);
-  font-family:'JetBrains Mono',monospace;
-  transition:all .2s;
-}
-.pp-pill:hover{border-color:var(--cyan-a20);color:var(--cyan)}
-.pp-cta{
+.port-proj-cta{
   display:inline-flex;align-items:center;gap:10px;
-  background:var(--grad);color:var(--bg);
-  padding:14px 32px;border-radius:var(--r);
-  font-family:'Clash Display',sans-serif;font-weight:700;
-  font-size:.95rem;border:none;cursor:none;
-  transition:all .3s;
-  box-shadow:0 0 40px rgba(250,204,21,0.2);
+  padding:13px 26px;
+  background:var(--gold);color:var(--bg);
+  border-radius:100px;font-size:.85rem;font-weight:600;
+  letter-spacing:.03em;cursor:none;text-decoration:none;
+  transition:transform .25s,box-shadow .25s;
 }
-.pp-cta:hover{transform:translateY(-3px);box-shadow:0 15px 50px rgba(250,204,21,0.3)}
+.port-proj-cta:hover{transform:translateY(-2px);box-shadow:0 14px 40px var(--gold-a20)}
+/* ── Nav ── */
+.port-nav{
+  display:flex;align-items:center;gap:12px;
+  margin-top:36px;
+}
+.port-nav-btn{
+  width:44px;height:44px;border-radius:50%;
+  background:var(--surface);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--text2);cursor:none;transition:all .25s;
+}
+.port-nav-btn:hover{background:var(--gold);color:var(--bg);border-color:var(--gold)}
+.port-nav-btn svg{width:16px;height:16px}
+.port-pips{display:flex;gap:6px;align-items:center}
+.port-pip{
+  width:6px;height:6px;border-radius:3px;
+  background:var(--border);transition:all .35s;cursor:none;
+}
+.port-pip.active{width:24px;background:var(--gold)}
+/* ── Right card stack ── */
+.port-stack-wrap{
+  position:relative;height:500px;
+  display:flex;align-items:center;justify-content:flex-start;
+}
+.port-card{
+  position:absolute;
+  width:calc(100% - 48px);
+  max-width:480px;
+  border-radius:var(--r-xl);overflow:hidden;
+  border:1px solid var(--border);
+  background:var(--bg2);
+  transform-origin:bottom center;
+  will-change:transform,opacity;
+  transition:transform .55s cubic-bezier(.23,1,.32,1),opacity .45s,border-color .3s,box-shadow .4s;
+  cursor:none;
+}
+.port-card[data-depth="0"]{
+  transform:translate(0,0) rotate(0deg) scale(1);
+  opacity:1;z-index:5;
+  border-color:var(--gold-a20);
+  box-shadow:0 24px 70px rgba(0,0,0,.55),0 0 0 1px var(--gold-a10);
+}
+.port-card[data-depth="1"]{transform:translate(12px,12px) rotate(2.5deg) scale(.95);opacity:.85;z-index:4}
+.port-card[data-depth="2"]{transform:translate(22px,22px) rotate(4.5deg) scale(.90);opacity:.65;z-index:3}
+.port-card[data-depth="3"]{transform:translate(30px,30px) rotate(6deg) scale(.85);opacity:.42;z-index:2}
+.port-card[data-depth="4"]{transform:translate(36px,36px) rotate(7.5deg) scale(.80);opacity:.22;z-index:1}
+.port-card.fly-off{
+  transform:translate(-150%,-50px) rotate(-16deg) scale(.88) !important;
+  opacity:0 !important;
+  transition:transform .5s cubic-bezier(.4,0,.6,1),opacity .4s !important;
+  z-index:10 !important;
+}
+.port-card.fly-in{
+  transform:translate(150%,20px) rotate(10deg) scale(.85) !important;
+  opacity:0 !important;transition:none !important;
+}
+.port-card[data-depth="0"]:hover{
+  transform:translate(-4px,-8px) rotate(-.5deg) scale(1.01);
+  box-shadow:0 32px 90px rgba(0,0,0,.65),0 0 0 1px var(--gold-a20);
+}
+.port-card-mock{
+  height:260px;overflow:hidden;
+  background:#040810;border-bottom:1px solid var(--border);
+}
+.port-card-mock svg{width:100%;height:100%;display:block}
+.port-card-foot{padding:16px 22px 20px}
+.port-card-tag{
+  display:inline-flex;
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:100px;padding:3px 10px;
+  font-size:.58rem;color:var(--muted);
+  font-family:'JetBrains Mono',monospace;
+  letter-spacing:.06em;text-transform:uppercase;margin-bottom:7px;
+}
+.port-card-title{
+  font-family:'Clash Display',sans-serif;
+  font-size:1rem;font-weight:700;
+}
+@media(max-width:900px){
+  .port-stage{grid-template-columns:1fr;gap:36px;min-height:auto}
+  .port-stack-wrap{height:360px}
+  .port-card{max-width:100%;width:calc(100% - 44px)}
+  .port-card-mock{height:200px}
+}
 
 /* ═══════════════════════════════════════════════
    CTA
@@ -1055,7 +983,7 @@ footer{
   .services-grid,.process-track{grid-template-columns:1fr 1fr}
   .svc.big{grid-column:span 1;display:block}
   .process-line{display:none}
-  .port-arrow{display:none}.pj{width:calc(90vw - 80px)}
+  .port-stage{grid-template-columns:1fr}
   .footer-grid{grid-template-columns:1fr 1fr}
   .hero-right{display:none}
   .nav-links{display:none}
@@ -1554,23 +1482,45 @@ footer{
 <!-- ═══ PORTFOLIO ═══ -->
 <section id="portfolio">
   <div class="wrap">
-    <div class="port-header reveal">
-      <div>
-        <div class="section-badge">Selected Work</div>
-        <h2>Projects that <span class="grad-text">speak loudly.</span></h2>
+    <div class="port-stage reveal">
+
+      <!-- LEFT: project info -->
+      <div class="port-info">
+        <div class="section-badge port-info-badge">Selected Work</div>
+        <div id="port-info-inner" class="port-info-inner">
+          <div class="port-proj-num">01 / 05</div>
+          <div class="port-proj-cat">SaaS Platform</div>
+          <h2 class="port-proj-title">NOVA — Analytics <span class="grad-text">Platform</span></h2>
+          <p class="port-proj-desc">Real-time SaaS dashboards with AI-powered insights, multi-tenant white-label API, and a polished B2B UX. Built for high-growth teams that live by their data.</p>
+          <div class="port-proj-metrics">
+            <div class="port-proj-metric"><div class="pm-val" style="color:var(--gold)">+340%</div><div class="pm-lbl">Revenue Impact</div></div>
+            <div class="port-proj-metric"><div class="pm-val" style="color:var(--cyan)">42ms</div><div class="pm-lbl">API Latency</div></div>
+            <div class="port-proj-metric"><div class="pm-val" style="color:#4ADE80">12.8K</div><div class="pm-lbl">Active Users</div></div>
+          </div>
+          <a href="#cta" class="port-proj-cta">
+            <span class="cta-label">Build Your SaaS</span>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+        <div class="port-nav">
+          <button class="port-nav-btn" id="port-prev-btn" aria-label="Previous project"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
+          <button class="port-nav-btn" id="port-next-btn" aria-label="Next project"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
+          <div class="port-pips" id="port-pips">
+            <div class="port-pip active" data-pip="0"></div>
+            <div class="port-pip" data-pip="1"></div>
+            <div class="port-pip" data-pip="2"></div>
+            <div class="port-pip" data-pip="3"></div>
+            <div class="port-pip" data-pip="4"></div>
+          </div>
+        </div>
       </div>
-      <a href="#cta" class="btn-outline" style="white-space:nowrap">View All Work →</a>
-    </div>
 
-    <div class="port-carousel-outer">
-      <button class="port-arrow prev" id="port-prev" aria-label="Previous project">&#8592;</button>
-      <button class="port-arrow next" id="port-next" aria-label="Next project">&#8594;</button>
-
-      <div class="port-carousel-track" id="port-track">
+      <!-- RIGHT: card stack -->
+      <div class="port-stack-wrap" id="port-stack">
 
         <!-- ══ NOVA ══ -->
-        <div class="pj" data-project="nova">
-          <div class="pj-mockup-wrap">
+        <div class="port-card" data-project="nova" data-depth="0">
+          <div class="port-card-mock">
             <svg viewBox="0 0 800 512" xmlns="http://www.w3.org/2000/svg">
               <defs>
                 <linearGradient id="ng1" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FACC15" stop-opacity=".35"/><stop offset="100%" stop-color="#FACC15" stop-opacity=".03"/></linearGradient>
@@ -1715,18 +1665,15 @@ footer{
               <text x="666" y="457" fill="#F8FAFC" font-size="9" font-family="sans-serif">87</text>
             </svg>
           </div>
-          <div class="pj-arrow-btn">&#8599;</div>
-          <div class="pj-foot">
-            <div class="pj-tag">SaaS Platform</div>
-            <div class="pj-title">NOVA — Analytics Platform</div>
-            <div class="pj-excerpt">Real-time SaaS dashboards with AI-powered growth insights and white-label API for B2B teams.</div>
-            <div class="pj-open">View details <span class="pj-open-dot">&#8599;</span></div>
+          <div class="port-card-foot">
+            <div class="port-card-tag">SaaS Platform</div>
+            <div class="port-card-title">NOVA — Analytics Platform</div>
           </div>
         </div>
 
         <!-- ══ ARC ══ -->
-        <div class="pj" data-project="arc">
-          <div class="pj-mockup-wrap">
+        <div class="port-card" data-project="arc" data-depth="1">
+          <div class="port-card-mock">
             <svg viewBox="0 0 800 512" xmlns="http://www.w3.org/2000/svg">
               <rect width="800" height="512" fill="#060F12"/>
               <line x1="0" y1="128" x2="800" y2="128" stroke="rgba(34,211,238,.04)" stroke-width="1"/>
@@ -1841,18 +1788,15 @@ footer{
               <text x="630" y="478" fill="#64748B" font-size="8.5" font-family="sans-serif">+4 more</text>
             </svg>
           </div>
-          <div class="pj-arrow-btn">&#8599;</div>
-          <div class="pj-foot">
-            <div class="pj-tag">Web3 / DeFi</div>
-            <div class="pj-title">ARC — DeFi Portfolio Tracker</div>
-            <div class="pj-excerpt">Multi-chain wallet aggregation with risk scoring across 8 blockchain networks in real time.</div>
-            <div class="pj-open">View details <span class="pj-open-dot">&#8599;</span></div>
+          <div class="port-card-foot">
+            <div class="port-card-tag">Web3 / DeFi</div>
+            <div class="port-card-title">ARC — DeFi Portfolio Tracker</div>
           </div>
         </div>
 
         <!-- ══ VEIL ══ -->
-        <div class="pj" data-project="veil">
-          <div class="pj-mockup-wrap">
+        <div class="port-card" data-project="veil" data-depth="2">
+          <div class="port-card-mock">
             <svg viewBox="0 0 800 512" xmlns="http://www.w3.org/2000/svg">
               <rect width="800" height="512" fill="#070810"/>
               <rect width="800" height="52" fill="#0B0D18"/>
@@ -1952,18 +1896,15 @@ footer{
               <text x="725" y="452" fill="#4ADE80" font-size="8" font-family="sans-serif">Active</text>
             </svg>
           </div>
-          <div class="pj-arrow-btn">&#8599;</div>
-          <div class="pj-foot">
-            <div class="pj-tag">Security</div>
-            <div class="pj-title">VEIL — Zero-Trust Console</div>
-            <div class="pj-excerpt">Enterprise access control with identity mesh and real-time threat intelligence monitoring.</div>
-            <div class="pj-open">View details <span class="pj-open-dot">&#8599;</span></div>
+          <div class="port-card-foot">
+            <div class="port-card-tag">Security</div>
+            <div class="port-card-title">VEIL — Zero-Trust Console</div>
           </div>
         </div>
 
         <!-- ══ FLUX ══ -->
-        <div class="pj" data-project="flux">
-          <div class="pj-mockup-wrap">
+        <div class="port-card" data-project="flux" data-depth="3">
+          <div class="port-card-mock">
             <svg viewBox="0 0 800 512" xmlns="http://www.w3.org/2000/svg">
               <rect width="800" height="512" fill="#080A18"/>
               <rect width="800" height="52" fill="#0B0E1E"/>
@@ -2066,18 +2007,15 @@ footer{
               <text x="624" y="482" fill="#64748B" font-size="9" font-family="sans-serif">Queued</text>
             </svg>
           </div>
-          <div class="pj-arrow-btn">&#8599;</div>
-          <div class="pj-foot">
-            <div class="pj-tag">AI / LLM</div>
-            <div class="pj-title">FLUX — Document Intelligence</div>
-            <div class="pj-excerpt">RAG-powered extraction pipeline with multi-model routing and human review workflows at scale.</div>
-            <div class="pj-open">View details <span class="pj-open-dot">&#8599;</span></div>
+          <div class="port-card-foot">
+            <div class="port-card-tag">AI / LLM</div>
+            <div class="port-card-title">FLUX — Document Intelligence</div>
           </div>
         </div>
 
         <!-- ══ CORE ══ -->
-        <div class="pj" data-project="core">
-          <div class="pj-mockup-wrap">
+        <div class="port-card" data-project="core" data-depth="4">
+          <div class="port-card-mock">
             <svg viewBox="0 0 800 512" xmlns="http://www.w3.org/2000/svg">
               <rect width="800" height="512" fill="#050810"/>
               <line x1="420" y1="0" x2="420" y2="512" stroke="rgba(255,255,255,.07)" stroke-width="1"/>
@@ -2204,48 +2142,16 @@ footer{
               <text x="718" y="494" fill="#64748B" font-size="9" font-family="sans-serif">Faster</text>
             </svg>
           </div>
-          <div class="pj-arrow-btn">&#8599;</div>
-          <div class="pj-foot">
-            <div class="pj-tag">DevTools</div>
-            <div class="pj-title">CORE — CLI Developer Toolkit</div>
-            <div class="pj-excerpt">Scaffold, deploy, and monitor cloud-native apps from the terminal. 3K+ GitHub stars.</div>
-            <div class="pj-open">View details <span class="pj-open-dot">&#8599;</span></div>
+          <div class="port-card-foot">
+            <div class="port-card-tag">DevTools</div>
+            <div class="port-card-title">CORE — CLI Developer Toolkit</div>
           </div>
         </div>
 
-      </div><!-- /port-carousel-track -->
-    </div><!-- /port-carousel-outer -->
-
-    <div class="port-dots">
-      <div class="port-dot active" data-dot="0"></div>
-      <div class="port-dot" data-dot="1"></div>
-      <div class="port-dot" data-dot="2"></div>
-      <div class="port-dot" data-dot="3"></div>
-      <div class="port-dot" data-dot="4"></div>
-    </div>
+      </div><!-- /port-stack-wrap -->
+    </div><!-- /port-stage -->
   </div>
 </section>
-
-<!-- ═══ PROJECT DETAIL PANEL ═══ -->
-<div id="proj-panel">
-  <div class="pp-backdrop" id="pp-backdrop"></div>
-  <div class="pp-panel">
-    <button class="pp-close" id="pp-close" aria-label="Close panel">&#x2715;</button>
-    <div class="pp-mockup" id="pp-mockup"></div>
-    <div class="pp-content">
-      <div class="pp-cat-badge" id="pp-cat"></div>
-      <h3 class="pp-title" id="pp-title"></h3>
-      <p class="pp-desc" id="pp-desc"></p>
-      <div class="pp-metrics" id="pp-metrics"></div>
-      <div class="pp-section-l">Tech Stack</div>
-      <div class="pp-tech" id="pp-tech"></div>
-      <a href="#cta" class="pp-cta" id="pp-cta" onclick="closePanel();return false;">
-        Start a Similar Project
-        <svg width="16" height="16" viewBox="0 0 18 18" fill="none"><path d="M3.75 9h10.5M10.5 5.25L14.25 9l-3.75 3.75" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </a>
-    </div>
-  </div>
-</div>
 
 <!-- ═══ CTA ═══ -->
 <section id="cta">
@@ -2338,7 +2244,7 @@ function animateCursor(){
   requestAnimationFrame(animateCursor);
 }
 animateCursor();
-document.querySelectorAll('a,button,.svc,.pj,.pill,.feat,.vcard,.step').forEach(el => {
+document.querySelectorAll('a,button,.svc,.port-card,.pill,.feat,.vcard,.step').forEach(el => {
   el.addEventListener('mouseenter', () => { ring.style.width='60px'; ring.style.height='60px'; });
   el.addEventListener('mouseleave', () => { ring.style.width='40px'; ring.style.height='40px'; });
 });
@@ -2420,141 +2326,149 @@ document.querySelectorAll('.svc').forEach(card => {
   });
 });
 
-// ══ Portfolio Carousel
-const pjTrack = document.getElementById('port-track');
-const pjPrev  = document.getElementById('port-prev');
-const pjNext  = document.getElementById('port-next');
-const pjDots  = document.querySelectorAll('.port-dot');
+// ══ Portfolio Card Stack
+const STACK_ORDER = ['nova', 'arc', 'veil', 'flux', 'core'];
+let stackIdx = 0;
+let stackBusy = false;
 
-function pjCardW() {
-  const c = pjTrack.querySelector('.pj');
-  return c ? c.offsetWidth + 22 : 422;
-}
-function pjUpdate() {
-  const idx = Math.round(pjTrack.scrollLeft / pjCardW());
-  pjDots.forEach((d, i) => d.classList.toggle('active', i === idx));
-  pjPrev.disabled = idx === 0;
-  pjNext.disabled = idx >= pjDots.length - 1;
-}
-pjPrev.addEventListener('click', () => {
-  pjTrack.scrollBy({ left: -pjCardW(), behavior: 'smooth' });
-  setTimeout(pjUpdate, 420);
-});
-pjNext.addEventListener('click', () => {
-  pjTrack.scrollBy({ left: pjCardW(), behavior: 'smooth' });
-  setTimeout(pjUpdate, 420);
-});
-pjTrack.addEventListener('scroll', () => requestAnimationFrame(pjUpdate));
-pjDots.forEach((d, i) => d.addEventListener('click', () => {
-  pjTrack.scrollTo({ left: i * pjCardW(), behavior: 'smooth' });
-  setTimeout(pjUpdate, 420);
-}));
-
-// Drag-to-scroll
-let isDrag = false, dragX = 0, dragScroll = 0;
-pjTrack.addEventListener('pointerdown', e => {
-  isDrag = true; dragX = e.clientX; dragScroll = pjTrack.scrollLeft;
-  pjTrack.setPointerCapture(e.pointerId);
-});
-pjTrack.addEventListener('pointermove', e => {
-  if (isDrag) pjTrack.scrollLeft = dragScroll - (e.clientX - dragX);
-});
-pjTrack.addEventListener('pointerup', () => { isDrag = false; setTimeout(pjUpdate, 50); });
-
-pjUpdate();
-
-// ══ Project detail panel data
-const PROJ_DATA = {
+const STACK_INFO = {
   nova: {
-    cat: 'SaaS Platform',
-    title: 'NOVA — Analytics Platform',
-    desc: 'Full-stack analytics SaaS with real-time dashboards, AI-powered insights, and a white-label API tier. Built for high-growth B2B teams that run entirely on data.',
+    num: '01 / 05', cat: 'SaaS Platform',
+    title: 'NOVA — Analytics <span class="grad-text">Platform</span>',
+    desc: 'Real-time SaaS dashboards with AI-powered insights, multi-tenant white-label API, and a polished B2B UX. Built for high-growth teams that live by their data.',
     metrics: [
-      { l: 'MRR', v: '$182K', c: 'var(--gold)' },
-      { l: 'Users', v: '12.8K', c: 'var(--cyan)' },
-      { l: 'Uptime', v: '99.9%', c: '#4ADE80' }
+      { v: '+340%', l: 'Revenue Impact', c: 'var(--gold)' },
+      { v: '42ms',  l: 'API Latency',    c: 'var(--cyan)' },
+      { v: '12.8K', l: 'Active Users',   c: '#4ADE80' }
     ],
-    stack: ['Next.js', 'TypeScript', 'PostgreSQL', 'Redis', 'AWS', 'Recharts']
+    cta: 'Build Your SaaS'
   },
   arc: {
-    cat: 'Web3 / DeFi',
-    title: 'ARC — DeFi Portfolio Tracker',
-    desc: 'Multi-chain DeFi analytics with real-time wallet aggregation, protocol risk scoring, and automated rebalancing across 8 blockchain networks.',
+    num: '02 / 05', cat: 'Web3 / DeFi',
+    title: 'ARC — DeFi Portfolio <span class="grad-text">Tracker</span>',
+    desc: 'Multi-chain wallet aggregation, live protocol risk scoring, and one-click rebalancing across 8 blockchain networks. Real finance, in real time.',
     metrics: [
-      { l: 'Chains', v: '8', c: 'var(--cyan)' },
-      { l: 'TVL', v: '$2.4M', c: 'var(--gold)' },
-      { l: 'Users', v: '4.2K', c: '#A78BFA' }
+      { v: '8',    l: 'Chains',      c: 'var(--cyan)' },
+      { v: '$2.4M',l: 'TVL Tracked', c: 'var(--gold)' },
+      { v: '4.2K', l: 'Users',       c: '#A78BFA' }
     ],
-    stack: ['React', 'Ethers.js', 'The Graph', 'Node.js', 'Alchemy API', 'Tailwind']
+    cta: 'Build Your Web3 App'
   },
   veil: {
-    cat: 'Cybersecurity',
-    title: 'VEIL — Zero-Trust Console',
-    desc: 'Enterprise-grade zero-trust access platform with identity mesh, real-time threat detection, and policy-as-code enforcement across cloud and on-prem environments.',
+    num: '03 / 05', cat: 'Cybersecurity',
+    title: 'VEIL — Zero-Trust <span class="grad-text">Console</span>',
+    desc: 'Enterprise zero-trust access with identity mesh, real-time threat detection, and policy-as-code enforcement across cloud and on-prem environments.',
     metrics: [
-      { l: 'Threats Blocked', v: '99.99%', c: '#F87171' },
-      { l: 'Policies', v: '1.2K', c: 'var(--gold)' },
-      { l: 'Sessions/day', v: '18K', c: 'var(--cyan)' }
+      { v: '99.99%', l: 'Threats Blocked', c: '#F87171' },
+      { v: '1.2K',   l: 'Policies',        c: 'var(--gold)' },
+      { v: '18K/d',  l: 'Sessions',        c: 'var(--cyan)' }
     ],
-    stack: ['Go', 'Rust', 'React', 'Kubernetes', 'HashiCorp Vault', 'SPIFFE']
+    cta: 'Secure Your Product'
   },
   flux: {
-    cat: 'AI / LLM',
-    title: 'FLUX — Document Intelligence',
-    desc: 'RAG-powered document processing pipeline with structured data extraction, multi-model routing, and human-in-the-loop review workflows at 50K documents per day.',
+    num: '04 / 05', cat: 'AI / LLM',
+    title: 'FLUX — Document <span class="grad-text">Intelligence</span>',
+    desc: 'RAG-powered pipeline with structured extraction, multi-model routing, and human-in-the-loop review. 50K documents processed daily at 97.3% accuracy.',
     metrics: [
-      { l: 'Accuracy', v: '97.3%', c: '#A78BFA' },
-      { l: 'Docs/day', v: '50K', c: 'var(--gold)' },
-      { l: 'Latency', v: '<2s', c: 'var(--cyan)' }
+      { v: '97.3%', l: 'Accuracy',  c: '#A78BFA' },
+      { v: '50K',   l: 'Docs / day',c: 'var(--gold)' },
+      { v: '<2s',   l: 'Latency',   c: 'var(--cyan)' }
     ],
-    stack: ['Python', 'LangChain', 'Claude API', 'FastAPI', 'Qdrant', 'React']
+    cta: 'Embed AI in Your Product'
   },
   core: {
-    cat: 'Open Source',
-    title: 'CORE — CLI Developer Toolkit',
-    desc: 'Unified CLI for scaffolding, deploying, and monitoring cloud-native applications. Reduces time-to-deploy by 80%. 3K+ GitHub stars, used by 800+ engineering teams worldwide.',
+    num: '05 / 05', cat: 'Open Source',
+    title: 'CORE — CLI Developer <span class="grad-text">Toolkit</span>',
+    desc: 'Unified CLI for scaffolding, deploying, and monitoring cloud-native apps. 80% faster time-to-deploy. 3.2K GitHub stars, trusted by 800+ engineering teams.',
     metrics: [
-      { l: 'GitHub Stars', v: '3.2K', c: 'var(--gold)' },
-      { l: 'Teams', v: '800+', c: 'var(--cyan)' },
-      { l: 'Commands', v: '64', c: '#4ADE80' }
+      { v: '3.2K', l: 'GitHub Stars',      c: 'var(--gold)' },
+      { v: '800+', l: 'Engineering Teams', c: 'var(--cyan)' },
+      { v: '−80%', l: 'Deploy Time',       c: '#4ADE80' }
     ],
-    stack: ['Rust', 'Node.js', 'Docker', 'Kubernetes', 'Terraform', 'Go']
+    cta: 'Build Your Dev Tools'
   }
 };
 
-function openPanel(key) {
-  const d = PROJ_DATA[key];
-  if (!d) return;
-  const card = document.querySelector(`.pj[data-project="${key}"]`);
-  document.getElementById('pp-cat').textContent   = d.cat;
-  document.getElementById('pp-title').textContent = d.title;
-  document.getElementById('pp-desc').textContent  = d.desc;
-  document.getElementById('pp-metrics').innerHTML = d.metrics.map(m =>
-    `<div class="pp-metric"><div class="pp-metric-l">${m.l}</div><div class="pp-metric-v" style="color:${m.c}">${m.v}</div></div>`
-  ).join('');
-  document.getElementById('pp-tech').innerHTML = d.stack.map(t =>
-    `<span class="pp-pill">${t}</span>`
-  ).join('');
-  const mw = card && card.querySelector('.pj-mockup-wrap');
-  document.getElementById('pp-mockup').innerHTML = mw ? mw.innerHTML : '';
-  document.getElementById('proj-panel').classList.add('open');
-  document.body.style.overflow = 'hidden';
+function stackCard(proj) {
+  return document.querySelector(`.port-card[data-project="${proj}"]`);
+}
+function stackDepth(proj) {
+  return (STACK_ORDER.indexOf(proj) - stackIdx + STACK_ORDER.length) % STACK_ORDER.length;
+}
+function stackRefreshDepths() {
+  STACK_ORDER.forEach(p => {
+    const d = stackDepth(p);
+    stackCard(p).dataset.depth = String(Math.min(d, 4));
+  });
+}
+function stackRefreshInfo(animate) {
+  const inner = document.getElementById('port-info-inner');
+  const d = STACK_INFO[STACK_ORDER[stackIdx]];
+  const apply = () => {
+    inner.querySelector('.port-proj-num').textContent    = d.num;
+    inner.querySelector('.port-proj-cat').textContent    = d.cat;
+    inner.querySelector('.port-proj-title').innerHTML    = d.title;
+    inner.querySelector('.port-proj-desc').textContent   = d.desc;
+    inner.querySelector('.port-proj-metrics').innerHTML  = d.metrics.map(m =>
+      `<div class="port-proj-metric"><div class="pm-val" style="color:${m.c}">${m.v}</div><div class="pm-lbl">${m.l}</div></div>`
+    ).join('');
+    inner.querySelector('.cta-label').textContent = d.cta;
+    inner.classList.remove('changing');
+  };
+  if (animate) { inner.classList.add('changing'); setTimeout(apply, 200); }
+  else apply();
+  document.querySelectorAll('.port-pip').forEach((p, i) => p.classList.toggle('active', i === stackIdx));
 }
 
-function closePanel() {
-  document.getElementById('proj-panel').classList.remove('open');
-  document.body.style.overflow = '';
+function stackNext() {
+  if (stackBusy) return;
+  stackBusy = true;
+  const topCard = stackCard(STACK_ORDER[stackIdx]);
+  topCard.classList.add('fly-off');
+  stackIdx = (stackIdx + 1) % STACK_ORDER.length;
+  stackRefreshDepths();
+  stackRefreshInfo(true);
+  setTimeout(() => {
+    topCard.classList.remove('fly-off');
+    topCard.dataset.depth = String(Math.min(stackDepth(topCard.dataset.project), 4));
+    stackRefreshDepths();
+    stackBusy = false;
+  }, 540);
 }
 
-document.querySelectorAll('.pj').forEach(c =>
-  c.addEventListener('click', () => openPanel(c.dataset.project))
-);
-document.getElementById('pp-close').addEventListener('click', closePanel);
-document.getElementById('pp-backdrop').addEventListener('click', closePanel);
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closePanel(); });
+function stackPrev() {
+  if (stackBusy) return;
+  stackBusy = true;
+  stackIdx = (stackIdx - 1 + STACK_ORDER.length) % STACK_ORDER.length;
+  const newTop = stackCard(STACK_ORDER[stackIdx]);
+  newTop.dataset.depth = '0';
+  newTop.classList.add('fly-in');
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    newTop.classList.remove('fly-in');
+    stackRefreshDepths();
+  }));
+  stackRefreshInfo(true);
+  setTimeout(() => { stackBusy = false; }, 540);
+}
 
-// Extend cursor hover to new interactive elements
-document.querySelectorAll('.pp-close,.pp-pill,.pp-cta,.port-arrow,.port-dot').forEach(el => {
+// Init
+stackRefreshDepths();
+stackRefreshInfo(false);
+
+document.getElementById('port-next-btn').addEventListener('click', stackNext);
+document.getElementById('port-prev-btn').addEventListener('click', stackPrev);
+document.querySelectorAll('.port-pip').forEach((p, i) => {
+  p.addEventListener('click', () => {
+    if (stackBusy || i === stackIdx) return;
+    stackIdx = i; stackRefreshDepths(); stackRefreshInfo(true);
+  });
+});
+// Click top card to advance
+document.querySelectorAll('.port-card').forEach(c => {
+  c.addEventListener('click', () => { if (c.dataset.depth === '0') stackNext(); });
+});
+// Cursor ring on interactive elements
+document.querySelectorAll('.port-card,.port-nav-btn,.port-pip').forEach(el => {
   el.addEventListener('mouseenter', () => { ring.style.width = '60px'; ring.style.height = '60px'; });
   el.addEventListener('mouseleave', () => { ring.style.width = '40px'; ring.style.height = '40px'; });
 });
