@@ -1,0 +1,2547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>DOXA — Next-Generation Creative Tech Agency</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Epilogue:ital,wght@0,300;0,400;0,500;1,300&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+/* ═══════════════════════════════════════════════
+   DESIGN TOKENS
+═══════════════════════════════════════════════ */
+:root {
+  --bg:       #070B14;
+  --bg1:      #0A0F1E;
+  --bg2:      #0D1426;
+  --bg3:      #111827;
+  --surface:  rgba(255,255,255,0.03);
+  --border:   rgba(255,255,255,0.07);
+  --gold:     #FACC15;
+  --gold2:    #F59E0B;
+  --gold-a10: rgba(250,204,21,0.10);
+  --gold-a20: rgba(250,204,21,0.20);
+  --gold-a40: rgba(250,204,21,0.40);
+  --cyan:     #22D3EE;
+  --cyan-a10: rgba(34,211,238,0.10);
+  --cyan-a20: rgba(34,211,238,0.20);
+  --grad:     linear-gradient(135deg,#FACC15,#22D3EE);
+  --grad-r:   linear-gradient(135deg,#22D3EE,#FACC15);
+  --text:     #F8FAFC;
+  --text2:    #CBD5E1;
+  --muted:    #64748B;
+  --r-sm:     10px;
+  --r:        16px;
+  --r-lg:     24px;
+  --r-xl:     32px;
+}
+
+/* ═══════════════════════════════════════════════
+   RESET & BASE
+═══════════════════════════════════════════════ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:16px}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Epilogue',sans-serif;
+  font-weight:400;
+  overflow-x:hidden;
+  cursor:none;
+}
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--gold);border-radius:2px}
+a{text-decoration:none;color:inherit}
+img{display:block;max-width:100%}
+
+/* ═══════════════════════════════════════════════
+   CUSTOM CURSOR
+═══════════════════════════════════════════════ */
+#cursor{
+  position:fixed;z-index:9999;pointer-events:none;
+  width:12px;height:12px;border-radius:50%;
+  background:var(--gold);
+  transform:translate(-50%,-50%);
+  transition:width .2s,height .2s,opacity .2s;
+  mix-blend-mode:difference;
+}
+#cursor-ring{
+  position:fixed;z-index:9998;pointer-events:none;
+  width:40px;height:40px;border-radius:50%;
+  border:1px solid rgba(250,204,21,0.5);
+  transform:translate(-50%,-50%);
+  transition:transform .1s,width .3s,height .3s;
+}
+body:has(a:hover) #cursor{width:20px;height:20px;}
+body:has(button:hover) #cursor{background:var(--cyan);width:20px;height:20px;}
+
+/* ═══════════════════════════════════════════════
+   TYPOGRAPHY
+═══════════════════════════════════════════════ */
+h1,h2,h3,h4,h5{font-family:'Clash Display',sans-serif;line-height:1.05;letter-spacing:-0.02em}
+h1{font-size:clamp(3.5rem,8vw,7rem);font-weight:700}
+h2{font-size:clamp(2rem,4.5vw,3.5rem);font-weight:600}
+h3{font-size:1.3rem;font-weight:600}
+h4{font-size:1rem;font-weight:600}
+.mono{font-family:'JetBrains Mono',monospace}
+
+.grad-text{
+  background:var(--grad);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.gold-text{color:var(--gold)}
+
+/* ═══════════════════════════════════════════════
+   LAYOUT
+═══════════════════════════════════════════════ */
+.wrap{max-width:1240px;margin:0 auto;padding:0 40px}
+section{position:relative;padding:140px 0;overflow:hidden}
+.section-intro{text-align:center;margin-bottom:80px}
+.section-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--gold-a10);border:1px solid var(--gold-a20);
+  border-radius:100px;padding:6px 18px;
+  font-size:.72rem;font-weight:500;letter-spacing:.14em;
+  color:var(--gold);text-transform:uppercase;
+  margin-bottom:20px;
+}
+.section-badge::before{content:'◆';font-size:.5rem}
+
+/* ═══════════════════════════════════════════════
+   SCENE: GLOBAL BACKGROUND
+═══════════════════════════════════════════════ */
+#scene{
+  position:fixed;inset:0;z-index:0;pointer-events:none;
+  overflow:hidden;
+}
+.orb{
+  position:absolute;border-radius:50%;
+  filter:blur(140px);animation:drift 20s ease-in-out infinite;
+}
+.orb1{
+  width:700px;height:700px;
+  background:radial-gradient(circle,rgba(250,204,21,0.12),transparent 70%);
+  top:-200px;left:-200px;
+  animation-duration:22s;
+}
+.orb2{
+  width:600px;height:600px;
+  background:radial-gradient(circle,rgba(34,211,238,0.09),transparent 70%);
+  bottom:-100px;right:-100px;
+  animation-duration:18s;animation-delay:-8s;
+}
+.orb3{
+  width:400px;height:400px;
+  background:radial-gradient(circle,rgba(250,204,21,0.06),transparent 70%);
+  top:50%;left:50%;transform:translate(-50%,-50%);
+  animation-duration:26s;animation-delay:-4s;
+}
+@keyframes drift{
+  0%,100%{transform:translate(0,0) scale(1)}
+  33%{transform:translate(60px,-40px) scale(1.05)}
+  66%{transform:translate(-40px,50px) scale(.96)}
+}
+.grid-bg{
+  position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:
+    linear-gradient(rgba(250,204,21,0.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(250,204,21,0.025) 1px,transparent 1px);
+  background-size:72px 72px;
+  mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 0%,transparent 100%);
+}
+/* Grain */
+body::after{
+  content:'';position:fixed;inset:0;z-index:1;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E");
+  opacity:.5;
+}
+/* All content above scene */
+nav,section,footer{position:relative;z-index:2}
+
+/* ═══════════════════════════════════════════════
+   NAV
+═══════════════════════════════════════════════ */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  padding:18px 0;
+  background:rgba(7,11,20,0.6);
+  backdrop-filter:blur(24px);
+  border-bottom:1px solid var(--border);
+  transition:all .4s;
+}
+nav.scrolled{background:rgba(7,11,20,0.92);border-bottom-color:rgba(250,204,21,0.12)}
+.nav-wrap{
+  display:flex;align-items:center;justify-content:space-between;
+  max-width:1240px;margin:0 auto;padding:0 40px;
+}
+.logo{
+  font-family:'Clash Display',sans-serif;
+  font-size:1.7rem;font-weight:700;letter-spacing:.05em;
+  color:var(--gold);
+}
+.logo sup{
+  font-size:.5rem;vertical-align:super;
+  color:var(--muted);font-family:'JetBrains Mono',monospace;letter-spacing:.1em;
+}
+.nav-links{display:flex;gap:40px;list-style:none}
+.nav-links a{
+  font-size:.85rem;font-weight:500;letter-spacing:.04em;color:var(--text2);
+  transition:color .2s;position:relative;
+}
+.nav-links a::after{
+  content:'';position:absolute;bottom:-4px;left:0;right:100%;
+  height:1px;background:var(--gold);transition:right .3s;
+}
+.nav-links a:hover{color:var(--text)}
+.nav-links a:hover::after{right:0}
+.nav-right{display:flex;align-items:center;gap:16px}
+.nav-status{
+  display:flex;align-items:center;gap:8px;
+  font-size:.72rem;color:var(--muted);font-family:'JetBrains Mono',monospace;
+}
+.status-dot{
+  width:6px;height:6px;border-radius:50%;background:#4ADE80;
+  animation:pulse-dot 2s ease infinite;
+}
+@keyframes pulse-dot{0%,100%{box-shadow:0 0 0 0 rgba(74,222,128,.4)} 50%{box-shadow:0 0 0 6px rgba(74,222,128,0)}}
+.btn-nav{
+  background:var(--gold);color:var(--bg);
+  padding:10px 24px;border-radius:var(--r);
+  font-family:'Clash Display',sans-serif;font-weight:600;
+  font-size:.82rem;letter-spacing:.04em;
+  border:none;cursor:none;transition:all .25s;
+}
+.btn-nav:hover{transform:translateY(-2px);box-shadow:0 8px 30px var(--gold-a40)}
+
+/* ═══════════════════════════════════════════════
+   HERO
+═══════════════════════════════════════════════ */
+#hero{
+  min-height:100vh;
+  display:grid;place-items:center;
+  padding:120px 0 80px;
+}
+.hero-inner{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:80px;align-items:center;
+  max-width:1240px;margin:0 auto;padding:0 40px;
+}
+.hero-left{}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  margin-bottom:28px;
+  font-family:'JetBrains Mono',monospace;font-size:.75rem;
+  color:var(--cyan);letter-spacing:.1em;
+}
+.hero-eyebrow::before{
+  content:'';width:32px;height:1px;background:var(--cyan);
+}
+.hero-title{
+  margin-bottom:28px;
+  line-height:1.0;
+}
+.hero-title .line{display:block}
+.hero-title .hl{
+  background:var(--grad);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+  position:relative;
+}
+.hero-glow{
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  width:400px;height:200px;
+  background:radial-gradient(ellipse,rgba(250,204,21,0.25),transparent 70%);
+  filter:blur(40px);pointer-events:none;
+  animation:heroGlow 3s ease-in-out infinite;
+}
+@keyframes heroGlow{0%,100%{opacity:.6}50%{opacity:1}}
+.hero-desc{
+  color:var(--text2);font-size:1.1rem;line-height:1.75;
+  max-width:500px;margin-bottom:44px;font-weight:300;
+}
+.hero-actions{display:flex;gap:14px;flex-wrap:wrap}
+.btn-primary{
+  display:inline-flex;align-items:center;gap:10px;
+  background:var(--gold);color:var(--bg);
+  padding:15px 34px;border-radius:var(--r);
+  font-family:'Clash Display',sans-serif;font-weight:600;
+  font-size:.95rem;letter-spacing:.02em;
+  border:none;cursor:none;transition:all .3s;
+}
+.btn-primary:hover{transform:translateY(-4px);box-shadow:0 16px 50px var(--gold-a40)}
+.btn-outline{
+  display:inline-flex;align-items:center;gap:10px;
+  background:transparent;color:var(--text);
+  padding:15px 34px;border-radius:var(--r);
+  font-family:'Clash Display',sans-serif;font-weight:600;
+  font-size:.95rem;letter-spacing:.02em;
+  border:1px solid var(--border);
+  cursor:none;transition:all .3s;
+}
+.btn-outline:hover{border-color:var(--gold-a40);background:var(--gold-a10)}
+.hero-trust{
+  display:flex;align-items:center;gap:24px;
+  margin-top:40px;padding-top:32px;
+  border-top:1px solid var(--border);
+}
+.trust-logos{display:flex;gap:16px;align-items:center}
+.trust-logo{
+  height:28px;padding:0 12px;
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'JetBrains Mono',monospace;font-size:.65rem;
+  color:var(--muted);letter-spacing:.06em;
+}
+.trust-text{color:var(--muted);font-size:.8rem}
+
+/* HERO RIGHT — floating dashboard */
+.hero-right{position:relative}
+.hero-float-card{
+  background:rgba(13,20,38,0.9);
+  border:1px solid var(--border);
+  border-radius:var(--r-xl);
+  overflow:hidden;
+  box-shadow:0 50px 100px rgba(0,0,0,.6), 0 0 80px rgba(250,204,21,0.07);
+  animation:floatCard 6s ease-in-out infinite;
+}
+@keyframes floatCard{0%,100%{transform:translateY(0) rotate(0)} 50%{transform:translateY(-16px) rotate(.3deg)}}
+.fc-bar{
+  background:rgba(255,255,255,0.03);
+  border-bottom:1px solid var(--border);
+  padding:14px 20px;
+  display:flex;align-items:center;gap:10px;
+}
+.fc-dot{width:10px;height:10px;border-radius:50%}
+.fc-dot.r{background:#FF5F57}.fc-dot.y{background:#FFBD2E}.fc-dot.g{background:#28CA41}
+.fc-title{
+  margin-left:10px;font-family:'JetBrains Mono',monospace;
+  font-size:.7rem;color:var(--muted);letter-spacing:.08em;
+}
+.fc-badge{
+  margin-left:auto;background:rgba(74,222,128,.15);
+  border:1px solid rgba(74,222,128,.2);
+  border-radius:100px;padding:3px 10px;
+  font-size:.62rem;color:#4ADE80;
+  font-family:'JetBrains Mono',monospace;
+}
+.fc-body{padding:24px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.metric-chip{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:12px;padding:16px;
+}
+.metric-chip .label{font-size:.63rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;font-family:'JetBrains Mono',monospace}
+.metric-chip .value{font-family:'Clash Display',sans-serif;font-size:1.5rem;font-weight:700}
+.metric-chip .delta{font-size:.65rem;margin-top:4px}
+.mc-gold .value{color:var(--gold)}
+.mc-cyan .value{color:var(--cyan)}
+.mc-green .value{color:#4ADE80}
+.delta-up{color:#4ADE80}.delta-dn{color:#F87171}
+.fc-chart{
+  grid-column:span 3;
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:12px;padding:16px;
+  display:flex;flex-direction:column;gap:12px;
+}
+.chart-head{display:flex;justify-content:space-between;align-items:center}
+.chart-head span{font-size:.72rem;color:var(--muted);font-family:'JetBrains Mono',monospace}
+.chart-legend{display:flex;gap:12px}
+.leg{display:flex;align-items:center;gap:5px;font-size:.65rem;color:var(--muted);font-family:'JetBrains Mono',monospace}
+.leg::before{content:'';width:10px;height:2px;border-radius:1px}
+.leg.gold::before{background:var(--gold)}.leg.cyan::before{background:var(--cyan)}
+.bars{display:flex;align-items:flex-end;gap:5px;height:80px}
+.bar-g{
+  flex:1;border-radius:4px 4px 0 0;
+  background:var(--gold);opacity:.8;
+  transition:height .5s;
+}
+.bar-c{
+  flex:1;border-radius:4px 4px 0 0;
+  background:var(--cyan);opacity:.7;
+  transition:height .5s;
+}
+/* mini floating badges */
+.float-badge{
+  position:absolute;
+  background:rgba(13,20,38,0.95);border:1px solid var(--border);
+  border-radius:var(--r);padding:12px 16px;
+  backdrop-filter:blur(16px);
+  font-size:.78rem;font-family:'JetBrains Mono',monospace;
+  animation:floatBadge 4s ease-in-out infinite;
+  box-shadow:0 16px 40px rgba(0,0,0,.4);
+}
+.float-badge.top-left{top:-20px;left:-40px;animation-delay:-1s}
+.float-badge.bot-right{bottom:-10px;right:-30px;animation-delay:-2.5s}
+@keyframes floatBadge{0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)}}
+.fb-label{font-size:.6rem;color:var(--muted);margin-bottom:4px;text-transform:uppercase;letter-spacing:.08em}
+.fb-val{font-family:'Clash Display',sans-serif;font-size:1.1rem;font-weight:600}
+.fb-val.gold{color:var(--gold)}.fb-val.cyan{color:var(--cyan)}
+
+/* ═══════════════════════════════════════════════
+   TICKER
+═══════════════════════════════════════════════ */
+.ticker-strip{
+  border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+  background:rgba(250,204,21,0.02);
+  padding:16px 0;overflow:hidden;white-space:nowrap;
+}
+.ticker-track{
+  display:inline-flex;gap:0;
+  animation:tickerAnim 30s linear infinite;
+}
+.tick{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:0 32px;
+  font-family:'JetBrains Mono',monospace;font-size:.72rem;
+  color:var(--muted);letter-spacing:.1em;text-transform:uppercase;
+  border-right:1px solid var(--border);
+}
+.tick .dot{color:var(--gold);font-size:.5rem}
+@keyframes tickerAnim{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ═══════════════════════════════════════════════
+   SERVICES
+═══════════════════════════════════════════════ */
+#services{background:var(--bg1)}
+.services-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:20px;
+}
+.svc{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--r-lg);padding:36px 32px;
+  position:relative;overflow:hidden;
+  transition:all .35s cubic-bezier(.23,1,.32,1);
+  group:true;
+}
+.svc::before{
+  content:'';position:absolute;inset:0;border-radius:var(--r-lg);
+  background:radial-gradient(circle at 20% 20%, var(--gold-a10) 0%, transparent 60%);
+  opacity:0;transition:opacity .35s;
+}
+.svc::after{
+  content:'';position:absolute;
+  top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  opacity:0;transition:opacity .35s;
+}
+.svc:hover{
+  transform:translateY(-8px);
+  border-color:var(--gold-a20);
+  box-shadow:0 30px 80px rgba(0,0,0,.4),0 0 40px rgba(250,204,21,0.06);
+}
+.svc:hover::before{opacity:1}
+.svc:hover::after{opacity:1}
+.svc-num{
+  font-family:'JetBrains Mono',monospace;font-size:.65rem;
+  color:var(--muted);letter-spacing:.1em;margin-bottom:24px;
+  display:flex;align-items:center;gap:8px;
+}
+.svc-num::before{content:'';flex:1;height:1px;background:var(--border);max-width:32px}
+.svc-icon{
+  width:52px;height:52px;border-radius:14px;
+  background:var(--gold-a10);border:1px solid var(--gold-a20);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.5rem;margin-bottom:24px;
+  transition:all .3s;
+}
+.svc:hover .svc-icon{background:var(--gold-a20);box-shadow:0 0 20px var(--gold-a20)}
+.svc h3{margin-bottom:12px}
+.svc p{color:var(--text2);font-size:.9rem;line-height:1.7;font-weight:300}
+.svc-arrow{
+  position:absolute;bottom:28px;right:28px;
+  width:34px;height:34px;border-radius:50%;
+  background:var(--border);
+  display:flex;align-items:center;justify-content:center;
+  font-size:.9rem;transition:all .3s;
+}
+.svc:hover .svc-arrow{background:var(--gold);color:var(--bg)}
+/* Big featured card */
+.svc.big{grid-column:span 2;display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:center}
+.svc.big .svc-content{}
+.svc-visual-box{
+  background:var(--bg3);border-radius:var(--r);border:1px solid var(--border);
+  padding:20px;display:flex;flex-direction:column;gap:10px;
+}
+.vb-row{display:flex;align-items:center;gap:12px;padding:10px;background:var(--surface);border-radius:10px;border:1px solid var(--border)}
+.vb-icon{width:32px;height:32px;border-radius:8px;background:var(--gold-a10);display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0}
+.vb-text{font-size:.8rem;color:var(--text2)}
+.vb-val{margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:.75rem;color:var(--gold)}
+.vb-prog{height:4px;border-radius:2px;background:var(--border);overflow:hidden;margin-top:4px}
+.vb-fill{height:100%;border-radius:2px;background:var(--grad)}
+
+/* ═══════════════════════════════════════════════
+   SHOWCASE / DASHBOARD
+═══════════════════════════════════════════════ */
+#showcase{background:var(--bg)}
+.showcase-wrap{
+  display:grid;grid-template-columns:1fr 1.4fr;
+  gap:80px;align-items:center;
+}
+.showcase-text .section-badge{margin-bottom:20px}
+.showcase-text h2{margin-bottom:20px}
+.showcase-text p{color:var(--text2);font-size:1rem;line-height:1.75;font-weight:300;margin-bottom:36px}
+.feats{display:flex;flex-direction:column;gap:12px}
+.feat{
+  display:flex;align-items:flex-start;gap:16px;
+  padding:18px 20px;border-radius:var(--r);
+  background:var(--surface);border:1px solid var(--border);
+  transition:all .3s;
+}
+.feat:hover{border-color:rgba(34,211,238,0.3);background:var(--cyan-a10)}
+.feat-icon{
+  width:36px;height:36px;border-radius:10px;
+  background:var(--cyan-a10);border:1px solid var(--cyan-a20);
+  display:flex;align-items:center;justify-content:center;font-size:1rem;
+  flex-shrink:0;
+}
+.feat-body h4{margin-bottom:4px}
+.feat-body p{color:var(--muted);font-size:.83rem;line-height:1.5}
+
+/* BIG dashboard mockup */
+.dash-box{
+  border-radius:var(--r-xl);overflow:hidden;
+  border:1px solid var(--border);
+  background:var(--bg2);
+  box-shadow:0 60px 120px rgba(0,0,0,.6),0 0 80px rgba(250,204,21,0.06);
+}
+.dash-chrome{
+  background:rgba(255,255,255,0.03);
+  border-bottom:1px solid var(--border);
+  padding:14px 20px;
+  display:flex;align-items:center;gap:8px;
+}
+.d-dot{width:10px;height:10px;border-radius:50%}
+.d-dot.r{background:#FF5F57}.d-dot.y{background:#FFBD2E}.d-dot.g{background:#28CA41}
+.chrome-url{
+  margin-left:14px;flex:1;background:var(--surface);border:1px solid var(--border);
+  border-radius:8px;padding:6px 14px;
+  font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--muted);
+}
+.dash-layout{display:grid;grid-template-columns:160px 1fr}
+.dash-nav{
+  background:rgba(255,255,255,0.02);
+  border-right:1px solid var(--border);
+  padding:20px 0;
+}
+.dn-logo{
+  padding:0 16px 20px;
+  font-family:'Clash Display',sans-serif;font-size:.95rem;font-weight:700;color:var(--gold);
+  border-bottom:1px solid var(--border);margin-bottom:8px;
+}
+.dn-item{
+  padding:10px 16px;display:flex;align-items:center;gap:10px;
+  font-size:.72rem;color:var(--muted);cursor:none;transition:all .2s;letter-spacing:.02em;
+}
+.dn-item:hover,.dn-item.on{color:var(--gold);background:var(--gold-a10)}
+.dn-item.on{border-left:2px solid var(--gold)}
+.dn-item .ico{width:16px;text-align:center;font-size:.85rem}
+.dash-content{padding:20px;display:flex;flex-direction:column;gap:14px}
+.dc-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.dc-kpi{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:10px;padding:14px;
+}
+.dc-kpi .lbl{font-size:.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px;font-family:'JetBrains Mono',monospace}
+.dc-kpi .val{font-family:'Clash Display',sans-serif;font-size:1.3rem;font-weight:700}
+.dc-kpi .chg{font-size:.6rem;margin-top:2px}
+.v-gold{color:var(--gold)}.v-cyan{color:var(--cyan)}.v-grn{color:#4ADE80}
+.chg-up{color:#4ADE80}.chg-dn{color:#F87171}
+.dc-graph{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:10px;padding:16px;
+}
+.dc-graph-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.dc-graph-head span{font-size:.65rem;color:var(--muted);font-family:'JetBrains Mono',monospace}
+.dc-graph-head .tag{
+  background:var(--gold-a10);border:1px solid var(--gold-a20);
+  border-radius:6px;padding:3px 8px;
+  font-size:.6rem;color:var(--gold);font-family:'JetBrains Mono',monospace;
+}
+.svg-chart{width:100%;height:80px}
+.dc-table{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:10px;overflow:hidden;
+}
+.dt-head{
+  display:grid;grid-template-columns:2fr 1fr 1fr 1fr;
+  padding:10px 14px;border-bottom:1px solid var(--border);
+  font-family:'JetBrains Mono',monospace;font-size:.6rem;
+  color:var(--muted);letter-spacing:.08em;text-transform:uppercase;
+}
+.dt-row{
+  display:grid;grid-template-columns:2fr 1fr 1fr 1fr;
+  padding:10px 14px;border-bottom:1px solid rgba(255,255,255,0.03);
+  font-size:.72rem;align-items:center;
+  transition:background .2s;
+}
+.dt-row:hover{background:var(--surface)}
+.dt-name{display:flex;align-items:center;gap:8px}
+.dt-ava{
+  width:22px;height:22px;border-radius:6px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.6rem;font-weight:700;font-family:'Clash Display',sans-serif;
+}
+.dt-status{
+  display:inline-flex;padding:3px 8px;border-radius:6px;
+  font-size:.6rem;font-family:'JetBrains Mono',monospace;
+}
+.st-live{background:rgba(74,222,128,.12);color:#4ADE80;border:1px solid rgba(74,222,128,.2)}
+.st-review{background:rgba(250,204,21,.12);color:var(--gold);border:1px solid var(--gold-a20)}
+.st-draft{background:rgba(100,116,139,.12);color:var(--muted);border:1px solid rgba(100,116,139,.2)}
+
+/* ═══════════════════════════════════════════════
+   TECH STACK + CODE EDITOR
+═══════════════════════════════════════════════ */
+#tech{background:var(--bg1)}
+.tech-wrap{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:80px;align-items:start;
+}
+.tech-pills{
+  display:flex;flex-wrap:wrap;gap:10px;margin-top:32px;margin-bottom:40px;
+}
+.pill{
+  display:flex;align-items:center;gap:8px;
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:100px;padding:8px 18px;
+  font-size:.82rem;font-weight:500;
+  transition:all .25s;cursor:none;
+}
+.pill:hover{
+  background:var(--gold-a10);border-color:var(--gold-a20);
+  color:var(--gold);transform:translateY(-2px);
+}
+.pill .pi{font-size:1rem}
+
+/* Code editor */
+.code-editor{
+  border-radius:var(--r-lg);overflow:hidden;
+  border:1px solid var(--border);
+  box-shadow:0 40px 80px rgba(0,0,0,.5);
+}
+.editor-chrome{
+  background:rgba(255,255,255,0.04);
+  border-bottom:1px solid var(--border);
+  padding:14px 20px;
+  display:flex;align-items:center;gap:8px;
+}
+.e-dot{width:10px;height:10px;border-radius:50%}
+.e-dot.r{background:#FF5F57}.e-dot.y{background:#FFBD2E}.e-dot.g{background:#28CA41}
+.editor-tabs{margin-left:16px;display:flex;gap:4px}
+.etab{
+  padding:5px 14px;border-radius:6px;
+  font-family:'JetBrains Mono',monospace;font-size:.65rem;
+  color:var(--muted);cursor:none;transition:all .2s;
+}
+.etab.active{background:var(--surface);color:var(--gold);border:1px solid var(--border)}
+.editor-body{
+  background:#0D1117;
+  padding:24px;
+  font-family:'JetBrains Mono',monospace;font-size:.78rem;line-height:2;
+  overflow-x:auto;
+}
+.ln{color:#3A3F4B;margin-right:24px;user-select:none;font-size:.7rem}
+.kw{color:#FF7B72}
+.fn{color:#D2A8FF}
+.str{color:#A5D6FF}
+.com{color:#6E7681;font-style:italic}
+.op{color:#79C0FF}
+.num{color:#F2CC60}
+.prop{color:#7EE787}
+.cursor-blink{
+  display:inline-block;width:2px;height:1em;
+  background:var(--gold);vertical-align:text-bottom;
+  animation:blink .9s step-end infinite;
+}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+
+/* ═══════════════════════════════════════════════
+   PROCESS
+═══════════════════════════════════════════════ */
+#process{background:var(--bg)}
+.process-track{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:0;position:relative;margin-top:80px;
+}
+.process-line{
+  position:absolute;top:36px;left:calc(12.5% + 24px);right:calc(12.5% + 24px);
+  height:1px;
+  background:linear-gradient(90deg,var(--gold),var(--cyan));
+  z-index:0;
+}
+.process-line::after{
+  content:'';position:absolute;top:-2px;left:0;
+  width:60%;height:5px;border-radius:2px;
+  background:linear-gradient(90deg,var(--gold),var(--cyan));
+  filter:blur(4px);opacity:.6;
+}
+.step{
+  text-align:center;padding:0 24px;position:relative;z-index:1;
+}
+.step-circle{
+  width:72px;height:72px;border-radius:50%;
+  background:var(--bg1);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 28px;
+  font-family:'Clash Display',sans-serif;font-size:1.3rem;font-weight:700;
+  color:var(--gold);transition:all .3s;
+  position:relative;
+}
+.step-circle::before{
+  content:'';position:absolute;inset:-3px;border-radius:50%;
+  background:var(--grad);z-index:-1;opacity:0;transition:opacity .3s;
+}
+.step:hover .step-circle{
+  background:var(--bg);
+  box-shadow:0 0 30px var(--gold-a40);
+}
+.step:hover .step-circle::before{opacity:1}
+.step h4{font-family:'Clash Display',sans-serif;margin-bottom:10px;font-size:1.05rem}
+.step p{color:var(--muted);font-size:.85rem;line-height:1.6}
+
+/* ═══════════════════════════════════════════════
+   PORTFOLIO
+═══════════════════════════════════════════════ */
+#portfolio{background:var(--bg1)}
+.port-header{
+  display:flex;justify-content:space-between;align-items:flex-end;
+  margin-bottom:52px;
+}
+/* ── Carousel ── */
+.port-carousel-outer{position:relative;margin:0 -8px}
+.port-carousel-track{
+  display:flex;gap:22px;
+  overflow-x:auto;
+  scroll-snap-type:x mandatory;
+  scroll-behavior:smooth;
+  -webkit-overflow-scrolling:touch;
+  padding:6px 8px 10px;
+  scrollbar-width:none;
+}
+.port-carousel-track::-webkit-scrollbar{display:none}
+/* Arrows */
+.port-arrow{
+  position:absolute;
+  top:128px;
+  transform:translateY(-50%);
+  z-index:10;
+  width:46px;height:46px;border-radius:50%;
+  background:var(--bg2);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  cursor:none;transition:all .3s;
+  color:var(--text2);font-size:1rem;
+  box-shadow:0 8px 32px rgba(0,0,0,.6);
+}
+.port-arrow:hover{background:var(--gold);color:var(--bg);border-color:var(--gold)}
+.port-arrow.prev{left:-23px}
+.port-arrow.next{right:-23px}
+.port-arrow[disabled]{opacity:.2;pointer-events:none}
+/* Dots */
+.port-dots{
+  display:flex;justify-content:center;gap:8px;
+  margin-top:36px;
+}
+.port-dot{
+  width:6px;height:6px;border-radius:3px;
+  background:var(--border);transition:all .35s;
+  cursor:none;
+}
+.port-dot.active{width:26px;background:var(--gold)}
+/* ── Project card ── */
+.pj{
+  flex-shrink:0;
+  width:400px;
+  border-radius:var(--r-xl);overflow:hidden;
+  cursor:none;
+  border:1px solid var(--border);
+  background:var(--bg2);
+  transition:transform .4s cubic-bezier(.23,1,.32,1),box-shadow .4s,border-color .4s;
+  scroll-snap-align:start;
+}
+.pj:hover{
+  transform:translateY(-8px);
+  box-shadow:0 30px 80px rgba(0,0,0,.55);
+  border-color:var(--gold-a20);
+}
+/* Mockup image area */
+.pj-mockup-wrap{
+  position:relative;height:256px;overflow:hidden;
+  border-bottom:1px solid var(--border);
+  background:#040810;
+}
+.pj-mockup-wrap svg{
+  width:100%;height:100%;display:block;
+  transition:transform .5s cubic-bezier(.23,1,.32,1);
+}
+.pj:hover .pj-mockup-wrap svg{transform:scale(1.04)}
+/* Hover arrow badge */
+.pj-arrow-btn{
+  position:absolute;top:16px;right:16px;z-index:2;
+  width:36px;height:36px;border-radius:50%;
+  background:var(--gold);color:var(--bg);
+  display:flex;align-items:center;justify-content:center;
+  font-size:.85rem;font-weight:700;
+  opacity:0;transform:scale(.75);
+  transition:opacity .3s,transform .3s;
+  pointer-events:none;
+}
+.pj:hover .pj-arrow-btn{opacity:1;transform:scale(1)}
+/* Card footer — always visible */
+.pj-foot{padding:22px 24px 26px}
+.pj-tag{
+  display:inline-flex;
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:100px;padding:4px 12px;
+  font-size:.62rem;color:var(--muted);
+  font-family:'JetBrains Mono',monospace;
+  letter-spacing:.06em;text-transform:uppercase;
+  margin-bottom:12px;
+}
+.pj-title{
+  font-family:'Clash Display',sans-serif;
+  font-size:1.12rem;font-weight:700;
+  margin-bottom:8px;line-height:1.25;
+}
+.pj-excerpt{
+  color:var(--text2);font-size:.82rem;
+  line-height:1.55;font-weight:300;margin-bottom:18px;
+}
+.pj-open{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:.75rem;font-weight:500;
+  color:var(--gold);letter-spacing:.04em;
+  font-family:'JetBrains Mono',monospace;
+  transition:gap .2s;
+}
+.pj:hover .pj-open{gap:14px}
+.pj-open-dot{
+  display:flex;align-items:center;justify-content:center;
+  width:20px;height:20px;border-radius:50%;
+  background:var(--gold);color:var(--bg);
+  font-size:.7rem;font-weight:700;
+}
+/* ═══════════════════════════════════════════════
+   PROJECT DETAIL PANEL
+═══════════════════════════════════════════════ */
+#proj-panel{
+  position:fixed;inset:0;z-index:1000;
+  pointer-events:none;
+}
+#proj-panel.open{pointer-events:all}
+.pp-backdrop{
+  position:absolute;inset:0;
+  background:rgba(7,11,20,0);
+  backdrop-filter:blur(0px);
+  transition:background .4s,backdrop-filter .4s;
+}
+#proj-panel.open .pp-backdrop{
+  background:rgba(7,11,20,.80);
+  backdrop-filter:blur(12px);
+}
+.pp-panel{
+  position:absolute;top:0;right:0;
+  width:min(600px,100vw);height:100%;
+  background:var(--bg2);
+  border-left:1px solid var(--border);
+  transform:translateX(100%);
+  transition:transform .5s cubic-bezier(.23,1,.32,1);
+  overflow-y:auto;scrollbar-width:none;
+  display:flex;flex-direction:column;
+}
+.pp-panel::-webkit-scrollbar{display:none}
+#proj-panel.open .pp-panel{transform:translateX(0)}
+.pp-close{
+  position:absolute;top:20px;right:20px;z-index:2;
+  width:36px;height:36px;border-radius:50%;
+  background:var(--surface);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.1rem;color:var(--text2);cursor:none;
+  transition:all .2s;
+}
+.pp-close:hover{background:var(--gold-a10);border-color:var(--gold-a20);color:var(--gold)}
+.pp-mockup{
+  height:300px;overflow:hidden;flex-shrink:0;
+  border-bottom:1px solid var(--border);
+  background:#040810;
+}
+.pp-mockup svg{width:100%;height:100%;display:block}
+.pp-content{padding:36px 40px 64px}
+.pp-cat-badge{
+  display:inline-flex;
+  background:var(--gold-a10);border:1px solid var(--gold-a20);
+  border-radius:100px;padding:5px 14px;
+  font-size:.64rem;letter-spacing:.14em;color:var(--gold);
+  text-transform:uppercase;font-family:'JetBrains Mono',monospace;
+  margin-bottom:16px;
+}
+.pp-title{
+  font-family:'Clash Display',sans-serif;
+  font-size:1.9rem;font-weight:700;line-height:1.1;
+  margin-bottom:14px;
+}
+.pp-desc{
+  color:var(--text2);font-size:.93rem;line-height:1.7;
+  font-weight:300;margin-bottom:28px;
+}
+.pp-metrics{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:12px;margin-bottom:28px;
+}
+.pp-metric{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--r);padding:16px;
+}
+.pp-metric-l{
+  font-size:.6rem;color:var(--muted);letter-spacing:.1em;
+  text-transform:uppercase;font-family:'JetBrains Mono',monospace;
+  margin-bottom:6px;
+}
+.pp-metric-v{
+  font-family:'Clash Display',sans-serif;
+  font-size:1.25rem;font-weight:700;
+}
+.pp-section-l{
+  font-size:.65rem;color:var(--muted);letter-spacing:.12em;
+  text-transform:uppercase;font-family:'JetBrains Mono',monospace;
+  margin-bottom:12px;
+}
+.pp-tech{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:32px}
+.pp-pill{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:100px;padding:5px 14px;
+  font-size:.75rem;color:var(--text2);
+  font-family:'JetBrains Mono',monospace;
+  transition:all .2s;
+}
+.pp-pill:hover{border-color:var(--cyan-a20);color:var(--cyan)}
+.pp-cta{
+  display:inline-flex;align-items:center;gap:10px;
+  background:var(--grad);color:var(--bg);
+  padding:14px 32px;border-radius:var(--r);
+  font-family:'Clash Display',sans-serif;font-weight:700;
+  font-size:.95rem;border:none;cursor:none;
+  transition:all .3s;
+  box-shadow:0 0 40px rgba(250,204,21,0.2);
+}
+.pp-cta:hover{transform:translateY(-3px);box-shadow:0 15px 50px rgba(250,204,21,0.3)}
+
+/* ═══════════════════════════════════════════════
+   CTA
+═══════════════════════════════════════════════ */
+#cta{
+  background:var(--bg);
+  text-align:center;overflow:hidden;
+}
+.cta-halo{
+  position:absolute;left:50%;top:50%;
+  transform:translate(-50%,-50%);
+  width:900px;height:500px;pointer-events:none;
+}
+.cta-halo::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse,rgba(250,204,21,0.12) 0%,rgba(34,211,238,0.06) 40%,transparent 70%);
+  animation:haloPulse 4s ease-in-out infinite;
+}
+@keyframes haloPulse{0%,100%{transform:scale(1);opacity:.7}50%{transform:scale(1.05);opacity:1}}
+.cta-inner{position:relative;z-index:1}
+.cta-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--gold-a10);border:1px solid var(--gold-a20);
+  border-radius:100px;padding:6px 18px;
+  font-size:.72rem;font-weight:500;letter-spacing:.14em;
+  color:var(--gold);text-transform:uppercase;
+  margin-bottom:24px;font-family:'JetBrains Mono',monospace;
+}
+#cta h2{margin-bottom:20px;font-size:clamp(2.2rem,5vw,4.5rem)}
+#cta p{color:var(--text2);max-width:500px;margin:0 auto 44px;font-size:1.05rem;font-weight:300}
+.btn-grad{
+  display:inline-flex;align-items:center;gap:12px;
+  background:var(--grad);color:var(--bg);
+  padding:18px 44px;border-radius:var(--r);
+  font-family:'Clash Display',sans-serif;font-weight:700;
+  font-size:1.05rem;letter-spacing:.02em;
+  border:none;cursor:none;transition:all .35s;
+  box-shadow:0 0 50px rgba(250,204,21,0.2);
+}
+.btn-grad:hover{
+  transform:translateY(-5px);
+  box-shadow:0 20px 70px rgba(250,204,21,0.3),0 10px 40px rgba(34,211,238,0.15);
+}
+.cta-trust{
+  margin-top:28px;display:flex;align-items:center;
+  justify-content:center;gap:24px;
+  color:var(--muted);font-size:.82rem;
+}
+.cta-trust-item{display:flex;align-items:center;gap:6px}
+.cta-trust-item::before{content:'✓';color:#4ADE80}
+
+/* ═══════════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════════ */
+footer{
+  background:var(--bg1);border-top:1px solid var(--border);
+  padding:64px 0 36px;
+}
+.footer-grid{
+  display:grid;grid-template-columns:2.2fr 1fr 1fr 1fr;
+  gap:48px;margin-bottom:56px;
+}
+.fg-brand .logo{font-size:2rem;display:block;margin-bottom:16px}
+.fg-brand p{color:var(--text2);font-size:.88rem;line-height:1.7;max-width:280px;font-weight:300}
+.fg-socials{display:flex;gap:10px;margin-top:20px}
+.soc{
+  width:36px;height:36px;border-radius:10px;
+  background:var(--surface);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  font-size:.8rem;color:var(--muted);transition:all .2s;cursor:none;
+}
+.soc:hover{background:var(--gold-a10);border-color:var(--gold-a20);color:var(--gold)}
+.fg-col h5{
+  font-family:'JetBrains Mono',monospace;font-size:.7rem;font-weight:500;
+  letter-spacing:.12em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:18px;
+}
+.fg-col ul{list-style:none;display:flex;flex-direction:column;gap:11px}
+.fg-col a{color:var(--text2);font-size:.88rem;transition:color .2s}
+.fg-col a:hover{color:var(--text)}
+.footer-bottom{
+  border-top:1px solid var(--border);padding-top:28px;
+  display:flex;justify-content:space-between;align-items:center;
+}
+.footer-bottom p{color:var(--muted);font-size:.78rem;font-family:'JetBrains Mono',monospace}
+.footer-badge{
+  display:flex;align-items:center;gap:8px;
+  font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--muted);
+}
+.fb-status{
+  display:flex;align-items:center;gap:6px;
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:100px;padding:5px 12px;
+}
+
+/* ═══════════════════════════════════════════════
+   SCROLL ANIMATIONS
+═══════════════════════════════════════════════ */
+.reveal{
+  opacity:0;transform:translateY(40px);
+  transition:opacity .8s cubic-bezier(.23,1,.32,1),transform .8s cubic-bezier(.23,1,.32,1);
+}
+.reveal.in{opacity:1;transform:translateY(0)}
+.reveal-left{
+  opacity:0;transform:translateX(-40px);
+  transition:opacity .8s cubic-bezier(.23,1,.32,1),transform .8s cubic-bezier(.23,1,.32,1);
+}
+.reveal-left.in{opacity:1;transform:translateX(0)}
+.reveal-right{
+  opacity:0;transform:translateX(40px);
+  transition:opacity .8s cubic-bezier(.23,1,.32,1),transform .8s cubic-bezier(.23,1,.32,1);
+}
+.reveal-right.in{opacity:1;transform:translateX(0)}
+
+/* ═══════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════ */
+@media(max-width:960px){
+  .hero-inner,.showcase-wrap,.tech-wrap,.value-inner{grid-template-columns:1fr}
+  .services-grid,.process-track{grid-template-columns:1fr 1fr}
+  .svc.big{grid-column:span 1;display:block}
+  .process-line{display:none}
+  .port-arrow{display:none}.pj{width:calc(90vw - 80px)}
+  .footer-grid{grid-template-columns:1fr 1fr}
+  .hero-right{display:none}
+  .nav-links{display:none}
+  h1{font-size:3rem}
+}
+</style>
+</head>
+<body>
+
+<!-- SCENE LAYERS -->
+<div id="scene">
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
+</div>
+<div class="grid-bg"></div>
+
+<!-- CURSOR -->
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<!-- ═══ NAV ═══ -->
+<nav id="nav">
+  <div class="nav-wrap">
+    <div class="logo">DOXA<sup>™</sup></div>
+    <ul class="nav-links">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#showcase">Platform</a></li>
+      <li><a href="#tech">Tech</a></li>
+      <li><a href="#portfolio">Work</a></li>
+      <li><a href="#process">Process</a></li>
+    </ul>
+    <div class="nav-right">
+      <div class="nav-status">
+        <div class="status-dot"></div>
+        All systems go
+      </div>
+      <a href="#cta" class="btn-nav">Start Project →</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section id="hero">
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="hero-eyebrow">Creative Tech Agency · v3.0</div>
+      <h1 class="hero-title">
+        <span class="line">We craft</span>
+        <span class="line" style="position:relative;">
+          <span class="hl">digital futures</span>
+          <div class="hero-glow"></div>
+        </span>
+        <span class="line">that scale.</span>
+      </h1>
+      <p class="hero-desc">
+        DOXA builds premium SaaS platforms, developer tools, and immersive digital experiences — engineered for startups that demand excellence at every layer of the stack.
+      </p>
+      <div class="hero-actions">
+        <a href="#cta" class="btn-primary">
+          Start Building
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3.75 9h10.5M10.5 5.25L14.25 9l-3.75 3.75" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="#showcase" class="btn-outline">See Our Work</a>
+      </div>
+      <div class="hero-trust">
+        <span class="trust-text">Trusted by</span>
+        <div class="trust-logos">
+          <div class="trust-logo">NOVA</div>
+          <div class="trust-logo">ARCX</div>
+          <div class="trust-logo">VEIL</div>
+          <div class="trust-logo">FLUX</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HERO RIGHT: Floating Dashboard Card -->
+    <div class="hero-right">
+      <div class="float-badge top-left">
+        <div class="fb-label">Active Projects</div>
+        <div class="fb-val gold">24 Live</div>
+      </div>
+      <div class="hero-float-card">
+        <div class="fc-bar">
+          <div class="fc-dot r"></div><div class="fc-dot y"></div><div class="fc-dot g"></div>
+          <span class="fc-title">DOXA · Platform Overview</span>
+          <span class="fc-badge">● Live</span>
+        </div>
+        <div class="fc-body">
+          <div class="metric-chip mc-gold">
+            <div class="label">Revenue MRR</div>
+            <div class="value">$182K</div>
+            <div class="delta delta-up">↑ 23.4% this month</div>
+          </div>
+          <div class="metric-chip mc-cyan">
+            <div class="label">Active Users</div>
+            <div class="value">12.8K</div>
+            <div class="delta delta-up">↑ 11.2% growth</div>
+          </div>
+          <div class="metric-chip mc-green">
+            <div class="label">Uptime SLA</div>
+            <div class="value">99.99%</div>
+            <div class="delta" style="color:var(--muted)">— 30d average</div>
+          </div>
+          <div class="fc-chart">
+            <div class="chart-head">
+              <span>Revenue · Last 8 weeks</span>
+              <div class="chart-legend">
+                <span class="leg gold">Revenue</span>
+                <span class="leg cyan">Users</span>
+              </div>
+            </div>
+            <div class="bars">
+              <div class="bar-g" style="height:45%"></div><div class="bar-c" style="height:30%"></div>
+              <div class="bar-g" style="height:55%"></div><div class="bar-c" style="height:40%"></div>
+              <div class="bar-g" style="height:62%"></div><div class="bar-c" style="height:48%"></div>
+              <div class="bar-g" style="height:50%"></div><div class="bar-c" style="height:42%"></div>
+              <div class="bar-g" style="height:70%"></div><div class="bar-c" style="height:55%"></div>
+              <div class="bar-g" style="height:80%"></div><div class="bar-c" style="height:62%"></div>
+              <div class="bar-g" style="height:75%"></div><div class="bar-c" style="height:58%"></div>
+              <div class="bar-g" style="height:100%"></div><div class="bar-c" style="height:78%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="float-badge bot-right">
+        <div class="fb-label">Avg. Deploy Time</div>
+        <div class="fb-val cyan">2.4s</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker-strip">
+  <div class="ticker-track">
+    <span class="tick"><span class="dot">◆</span> Full-Stack Engineering</span>
+    <span class="tick"><span class="dot">◆</span> UI/UX Design Systems</span>
+    <span class="tick"><span class="dot">◆</span> AI Integration</span>
+    <span class="tick"><span class="dot">◆</span> Cloud Architecture</span>
+    <span class="tick"><span class="dot">◆</span> Mobile Development</span>
+    <span class="tick"><span class="dot">◆</span> API Design</span>
+    <span class="tick"><span class="dot">◆</span> Web3 & DeFi</span>
+    <span class="tick"><span class="dot">◆</span> Performance Tuning</span>
+    <!-- duplicate for loop -->
+    <span class="tick"><span class="dot">◆</span> Full-Stack Engineering</span>
+    <span class="tick"><span class="dot">◆</span> UI/UX Design Systems</span>
+    <span class="tick"><span class="dot">◆</span> AI Integration</span>
+    <span class="tick"><span class="dot">◆</span> Cloud Architecture</span>
+    <span class="tick"><span class="dot">◆</span> Mobile Development</span>
+    <span class="tick"><span class="dot">◆</span> API Design</span>
+    <span class="tick"><span class="dot">◆</span> Web3 & DeFi</span>
+    <span class="tick"><span class="dot">◆</span> Performance Tuning</span>
+  </div>
+</div>
+
+<!-- ═══ SERVICES ═══ -->
+<section id="services">
+  <div class="wrap">
+    <div class="section-intro reveal">
+      <div class="section-badge">What We Build</div>
+      <h2>Two disciplines. <span class="grad-text">One obsession.</span></h2>
+      <p style="color:var(--text2);max-width:520px;margin:.6em auto 0;font-weight:300;font-size:1.05rem">We combine deep engineering with expressive design to build products people actually love using.</p>
+    </div>
+    <div class="services-grid">
+      <!-- Big featured -->
+      <div class="svc big reveal">
+        <div class="svc-content">
+          <div class="svc-num">01</div>
+          <div class="svc-icon">⚡</div>
+          <h3>Full-Stack Product Engineering</h3>
+          <p>End-to-end product development — from system architecture and database design to polished frontend delivery. We build for speed, scale, and longevity.</p>
+          <div style="margin-top:20px;display:flex;gap:8px;flex-wrap:wrap">
+            <span style="background:var(--gold-a10);border:1px solid var(--gold-a20);border-radius:8px;padding:4px 10px;font-size:.7rem;color:var(--gold);font-family:'JetBrains Mono',monospace">Next.js</span>
+            <span style="background:var(--gold-a10);border:1px solid var(--gold-a20);border-radius:8px;padding:4px 10px;font-size:.7rem;color:var(--gold);font-family:'JetBrains Mono',monospace">Node.js</span>
+            <span style="background:var(--cyan-a10);border:1px solid var(--cyan-a20);border-radius:8px;padding:4px 10px;font-size:.7rem;color:var(--cyan);font-family:'JetBrains Mono',monospace">PostgreSQL</span>
+            <span style="background:var(--cyan-a10);border:1px solid var(--cyan-a20);border-radius:8px;padding:4px 10px;font-size:.7rem;color:var(--cyan);font-family:'JetBrains Mono',monospace">AWS</span>
+          </div>
+        </div>
+        <div class="svc-visual-box">
+          <div class="vb-row">
+            <div class="vb-icon">🚀</div>
+            <div>
+              <div class="vb-text">API Response Time</div>
+              <div class="vb-prog"><div class="vb-fill" style="width:92%"></div></div>
+            </div>
+            <div class="vb-val">42ms</div>
+          </div>
+          <div class="vb-row">
+            <div class="vb-icon">📦</div>
+            <div>
+              <div class="vb-text">Build Size Optimisation</div>
+              <div class="vb-prog"><div class="vb-fill" style="width:78%"></div></div>
+            </div>
+            <div class="vb-val">78%</div>
+          </div>
+          <div class="vb-row">
+            <div class="vb-icon">🔒</div>
+            <div>
+              <div class="vb-text">Security Score</div>
+              <div class="vb-prog"><div class="vb-fill" style="width:97%"></div></div>
+            </div>
+            <div class="vb-val">A+</div>
+          </div>
+          <div class="vb-row">
+            <div class="vb-icon">📈</div>
+            <div>
+              <div class="vb-text">Lighthouse Score</div>
+              <div class="vb-prog"><div class="vb-fill" style="width:96%"></div></div>
+            </div>
+            <div class="vb-val">96/100</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="svc reveal">
+        <div class="svc-num">02</div>
+        <div class="svc-icon">🎨</div>
+        <h3>UI/UX Design Systems</h3>
+        <p>Premium interfaces engineered for conversion and delight. We craft design systems that scale from MVP to enterprise without losing their soul.</p>
+        <div class="svc-arrow">→</div>
+      </div>
+
+      <div class="svc reveal">
+        <div class="svc-num">03</div>
+        <div class="svc-icon">🤖</div>
+        <h3>AI & LLM Integration</h3>
+        <p>Embed intelligence directly into your product. From RAG pipelines to autonomous agents — we make AI a first-class citizen of your UX.</p>
+        <div class="svc-arrow">→</div>
+      </div>
+
+      <div class="svc reveal">
+        <div class="svc-num">04</div>
+        <div class="svc-icon">📡</div>
+        <h3>Cloud Infrastructure</h3>
+        <p>Bulletproof, zero-downtime backends on AWS, GCP, or Vercel. Kubernetes, CI/CD pipelines, and observability stacks included.</p>
+        <div class="svc-arrow">→</div>
+      </div>
+
+      <div class="svc reveal">
+        <div class="svc-num">05</div>
+        <div class="svc-icon">📱</div>
+        <h3>Mobile Development</h3>
+        <p>Cross-platform mobile apps built with Flutter or React Native — pixel-perfect on iOS and Android with native performance.</p>
+        <div class="svc-arrow">→</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SHOWCASE ═══ -->
+<section id="showcase">
+  <div class="wrap">
+    <div class="showcase-wrap">
+      <div class="showcase-text reveal-left">
+        <div class="section-badge">The Platform</div>
+        <h2>Command your <span class="grad-text">entire stack.</span></h2>
+        <p>A unified operational layer across your infrastructure — designed for teams that move fast and break nothing.</p>
+        <div class="feats">
+          <div class="feat">
+            <div class="feat-icon">⚡</div>
+            <div class="feat-body">
+              <h4>Real-Time Monitoring</h4>
+              <p>Live metrics with sub-second latency — catch issues before users do.</p>
+            </div>
+          </div>
+          <div class="feat">
+            <div class="feat-icon">🔧</div>
+            <div class="feat-body">
+              <h4>One-Click Deployments</h4>
+              <p>Git-connected CI/CD with instant rollback and blue-green deployments.</p>
+            </div>
+          </div>
+          <div class="feat">
+            <div class="feat-icon">🔒</div>
+            <div class="feat-body">
+              <h4>Role-Based Access</h4>
+              <p>Granular permissions, audit trails, and SSO — enterprise-grade by default.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FULL DASHBOARD MOCKUP -->
+      <div class="reveal-right">
+        <div class="dash-box">
+          <div class="dash-chrome">
+            <div class="d-dot r"></div><div class="d-dot y"></div><div class="d-dot g"></div>
+            <div class="chrome-url">app.doxa.studio · Platform Dashboard</div>
+          </div>
+          <div class="dash-layout">
+            <div class="dash-nav">
+              <div class="dn-logo">DOXA</div>
+              <div class="dn-item on"><span class="ico">📊</span> Overview</div>
+              <div class="dn-item"><span class="ico">🚀</span> Projects</div>
+              <div class="dn-item"><span class="ico">📦</span> Deploys</div>
+              <div class="dn-item"><span class="ico">📈</span> Analytics</div>
+              <div class="dn-item"><span class="ico">🔒</span> Security</div>
+              <div class="dn-item"><span class="ico">⚙️</span> Settings</div>
+            </div>
+            <div class="dash-content">
+              <div class="dc-row">
+                <div class="dc-kpi">
+                  <div class="lbl">MRR</div>
+                  <div class="val v-gold">$48.2K</div>
+                  <div class="chg chg-up">↑ 12.4%</div>
+                </div>
+                <div class="dc-kpi">
+                  <div class="lbl">DAU</div>
+                  <div class="val v-cyan">3,891</div>
+                  <div class="chg chg-up">↑ 8.1%</div>
+                </div>
+                <div class="dc-kpi">
+                  <div class="lbl">Uptime</div>
+                  <div class="val v-grn">99.97%</div>
+                  <div class="chg" style="color:var(--muted)">— 30d avg</div>
+                </div>
+              </div>
+              <div class="dc-graph">
+                <div class="dc-graph-head">
+                  <span>Revenue trend · 12 weeks</span>
+                  <span class="tag">+23.4% ↑</span>
+                </div>
+                <svg class="svg-chart" viewBox="0 0 320 60" preserveAspectRatio="none">
+                  <defs>
+                    <linearGradient id="lg1" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="#FACC15" stop-opacity=".3"/>
+                      <stop offset="100%" stop-color="#FACC15" stop-opacity="0"/>
+                    </linearGradient>
+                    <linearGradient id="lg2" x1="0" y1="0" x2="1" y2="0">
+                      <stop offset="0%" stop-color="#FACC15"/>
+                      <stop offset="100%" stop-color="#22D3EE"/>
+                    </linearGradient>
+                  </defs>
+                  <path d="M0,50 C20,48 40,44 60,40 C80,36 100,32 120,28 C140,24 160,22 180,18 C200,14 220,12 240,10 C260,8 280,6 320,2"
+                        fill="url(#lg1)" stroke="none"/>
+                  <path d="M0,50 C20,48 40,44 60,40 C80,36 100,32 120,28 C140,24 160,22 180,18 C200,14 220,12 240,10 C260,8 280,6 320,2"
+                        fill="none" stroke="url(#lg2)" stroke-width="2"/>
+                  <circle cx="320" cy="2" r="3" fill="#22D3EE"/>
+                </svg>
+              </div>
+              <div class="dc-table">
+                <div class="dt-head">
+                  <span>Project</span><span>Status</span><span>Deploy</span><span>Score</span>
+                </div>
+                <div class="dt-row">
+                  <div class="dt-name">
+                    <div class="dt-ava" style="background:rgba(250,204,21,.15);color:var(--gold)">N</div>
+                    Nova Platform
+                  </div>
+                  <div><span class="dt-status st-live">Live</span></div>
+                  <div style="font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--muted)">2m ago</div>
+                  <div style="color:#4ADE80;font-size:.72rem">96/100</div>
+                </div>
+                <div class="dt-row">
+                  <div class="dt-name">
+                    <div class="dt-ava" style="background:rgba(34,211,238,.15);color:var(--cyan)">A</div>
+                    ArcX Dashboard
+                  </div>
+                  <div><span class="dt-status st-review">Review</span></div>
+                  <div style="font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--muted)">1h ago</div>
+                  <div style="color:var(--gold);font-size:.72rem">88/100</div>
+                </div>
+                <div class="dt-row">
+                  <div class="dt-name">
+                    <div class="dt-ava" style="background:rgba(100,116,139,.15);color:var(--muted)">V</div>
+                    Veil Security
+                  </div>
+                  <div><span class="dt-status st-draft">Draft</span></div>
+                  <div style="font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--muted)">3d ago</div>
+                  <div style="color:var(--muted);font-size:.72rem">72/100</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TECH STACK ═══ -->
+<section id="tech">
+  <div class="wrap">
+    <div class="tech-wrap">
+      <div class="reveal-left">
+        <div class="section-badge">Technology</div>
+        <h2>Built on the <span class="grad-text">best stack.</span></h2>
+        <p style="color:var(--text2);font-size:1rem;line-height:1.75;font-weight:300;margin-bottom:8px">
+          We pick the right tool for each problem — no dogma, just pragmatic engineering choices that stand the test of scale.
+        </p>
+        <div class="tech-pills">
+          <div class="pill"><span class="pi">⚛️</span> React</div>
+          <div class="pill"><span class="pi">▲</span> Next.js</div>
+          <div class="pill"><span class="pi">🟢</span> Node.js</div>
+          <div class="pill"><span class="pi">🦀</span> Rust</div>
+          <div class="pill"><span class="pi">🐦</span> Flutter</div>
+          <div class="pill"><span class="pi">🐘</span> PostgreSQL</div>
+          <div class="pill"><span class="pi">🔴</span> Redis</div>
+          <div class="pill"><span class="pi">☁️</span> AWS</div>
+          <div class="pill"><span class="pi">🐳</span> Docker</div>
+          <div class="pill"><span class="pi">☸️</span> Kubernetes</div>
+          <div class="pill"><span class="pi">🤖</span> Claude AI</div>
+          <div class="pill"><span class="pi">🔷</span> TypeScript</div>
+        </div>
+        <a href="#cta" class="btn-primary" style="width:fit-content">
+          Discuss Your Stack
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+
+      <!-- CODE EDITOR -->
+      <div class="reveal-right">
+        <div class="code-editor">
+          <div class="editor-chrome">
+            <div class="e-dot r"></div><div class="e-dot y"></div><div class="e-dot g"></div>
+            <div class="editor-tabs">
+              <div class="etab active">api.ts</div>
+              <div class="etab">auth.ts</div>
+              <div class="etab">deploy.yml</div>
+            </div>
+          </div>
+          <div class="editor-body">
+<pre><span class="ln">01</span><span class="com">// DOXA — Intelligent API Layer</span>
+<span class="ln">02</span><span class="kw">import</span> { <span class="fn">createClient</span> } <span class="kw">from</span> <span class="str">'@doxa/core'</span>
+<span class="ln">03</span><span class="kw">import</span> { <span class="fn">withAI</span>, <span class="fn">withCache</span> } <span class="kw">from</span> <span class="str">'@doxa/middleware'</span>
+<span class="ln">04</span>
+<span class="ln">05</span><span class="kw">const</span> <span class="prop">client</span> = <span class="fn">createClient</span>({
+<span class="ln">06</span>  <span class="prop">endpoint</span>: <span class="str">'https://api.doxa.studio'</span>,
+<span class="ln">07</span>  <span class="prop">version</span>: <span class="str">'v3'</span>,
+<span class="ln">08</span>  <span class="prop">telemetry</span>: <span class="kw">true</span>,
+<span class="ln">09</span>})
+<span class="ln">10</span>
+<span class="ln">11</span><span class="kw">export const</span> <span class="fn">getInsights</span> = <span class="fn">withAI</span>(<span class="fn">withCache</span>(
+<span class="ln">12</span>  <span class="kw">async</span> (<span class="prop">projectId</span>: <span class="op">string</span>) => {
+<span class="ln">13</span>    <span class="kw">const</span> { <span class="prop">data</span>, <span class="prop">latency</span> } = <span class="kw">await</span> <span class="prop">client</span>
+<span class="ln">14</span>      .<span class="fn">analytics</span>(<span class="prop">projectId</span>)
+<span class="ln">15</span>      .<span class="fn">insights</span>({ <span class="prop">window</span>: <span class="str">'30d'</span> })
+<span class="ln">16</span>    
+<span class="ln">17</span>    <span class="com">// &lt; 50ms guaranteed SLA</span>
+<span class="ln">18</span>    <span class="fn">assert</span>(<span class="prop">latency</span> &lt; <span class="num">50</span>, <span class="str">'SLA breach'</span>)
+<span class="ln">19</span>    <span class="kw">return</span> <span class="prop">data</span>
+<span class="ln">20</span>  }, { <span class="prop">ttl</span>: <span class="num">60</span> }
+<span class="ln">21</span>))<span class="cursor-blink"></span></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PROCESS ═══ -->
+<section id="process">
+  <div class="wrap">
+    <div class="section-intro reveal">
+      <div class="section-badge">How We Work</div>
+      <h2>From idea to <span class="grad-text">live product.</span></h2>
+      <p style="color:var(--text2);max-width:500px;margin:.6em auto 0;font-weight:300;font-size:1.05rem">A process refined across 140+ projects — structured enough to deliver, agile enough to adapt.</p>
+    </div>
+    <div class="process-track">
+      <div class="process-line"></div>
+      <div class="step reveal" style="transition-delay:.1s">
+        <div class="step-circle">01</div>
+        <h4>Discovery</h4>
+        <p>Deep-dive into your business goals, technical constraints, and user needs to define scope and strategy.</p>
+      </div>
+      <div class="step reveal" style="transition-delay:.2s">
+        <div class="step-circle">02</div>
+        <h4>Architecture</h4>
+        <p>Design system and data architecture, UX flows, and technical specs before any code is written.</p>
+      </div>
+      <div class="step reveal" style="transition-delay:.3s">
+        <div class="step-circle">03</div>
+        <h4>Execution</h4>
+        <p>Sprint-based development with weekly demos, async collaboration, and continuous integration.</p>
+      </div>
+      <div class="step reveal" style="transition-delay:.4s">
+        <div class="step-circle">04</div>
+        <h4>Launch & Scale</h4>
+        <p>Rigorous QA, performance hardening, zero-downtime deployment, and ongoing growth support.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PORTFOLIO ═══ -->
+<section id="portfolio">
+  <div class="wrap">
+    <div class="port-header reveal">
+      <div>
+        <div class="section-badge">Selected Work</div>
+        <h2>Projects that <span class="grad-text">speak loudly.</span></h2>
+      </div>
+      <a href="#cta" class="btn-outline" style="white-space:nowrap">View All Work →</a>
+    </div>
+
+    <div class="port-carousel-outer">
+      <button class="port-arrow prev" id="port-prev" aria-label="Previous project">&#8592;</button>
+      <button class="port-arrow next" id="port-next" aria-label="Next project">&#8594;</button>
+
+      <div class="port-carousel-track" id="port-track">
+
+        <!-- ══ NOVA ══ -->
+        <div class="pj" data-project="nova">
+          <div class="pj-mockup-wrap">
+            <svg viewBox="0 0 800 512" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="ng1" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FACC15" stop-opacity=".35"/><stop offset="100%" stop-color="#FACC15" stop-opacity=".03"/></linearGradient>
+                <linearGradient id="ng2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#22D3EE" stop-opacity=".18"/><stop offset="100%" stop-color="#22D3EE" stop-opacity="0"/></linearGradient>
+              </defs>
+              <rect width="800" height="512" fill="#070B14"/>
+              <rect width="158" height="512" fill="#0A0F1E"/>
+              <line x1="158" y1="0" x2="158" y2="512" stroke="rgba(255,255,255,.07)" stroke-width="1"/>
+              <rect x="18" y="18" width="8" height="8" rx="2" fill="#FACC15"/>
+              <rect x="28" y="18" width="5" height="5" rx="1" fill="#FACC15" opacity=".55"/>
+              <rect x="28" y="25" width="5" height="5" rx="1" fill="#FACC15" opacity=".3"/>
+              <text x="40" y="30" fill="#F8FAFC" font-size="13" font-weight="700" font-family="sans-serif" letter-spacing="2">NOVA</text>
+              <rect x="10" y="52" width="138" height="30" rx="7" fill="rgba(250,204,21,.12)"/>
+              <rect x="20" y="60" width="10" height="10" rx="2" fill="#FACC15" opacity=".75"/>
+              <text x="36" y="70" fill="#FACC15" font-size="11" font-weight="600" font-family="sans-serif">Dashboard</text>
+              <rect x="20" y="95" width="10" height="10" rx="2" fill="#4A5568" opacity=".6"/>
+              <text x="36" y="105" fill="#64748B" font-size="11" font-family="sans-serif">Analytics</text>
+              <rect x="20" y="122" width="10" height="10" rx="2" fill="#4A5568" opacity=".6"/>
+              <text x="36" y="132" fill="#64748B" font-size="11" font-family="sans-serif">Revenue</text>
+              <rect x="20" y="149" width="10" height="10" rx="2" fill="#4A5568" opacity=".6"/>
+              <text x="36" y="159" fill="#64748B" font-size="11" font-family="sans-serif">Customers</text>
+              <rect x="20" y="176" width="10" height="10" rx="2" fill="#4A5568" opacity=".6"/>
+              <text x="36" y="186" fill="#64748B" font-size="11" font-family="sans-serif">Reports</text>
+              <line x1="18" y1="208" x2="140" y2="208" stroke="rgba(255,255,255,.06)" stroke-width="1"/>
+              <rect x="20" y="216" width="10" height="10" rx="2" fill="#4A5568" opacity=".6"/>
+              <text x="36" y="226" fill="#64748B" font-size="11" font-family="sans-serif">Settings</text>
+              <rect x="10" y="472" width="138" height="32" rx="7" fill="rgba(255,255,255,.04)"/>
+              <circle cx="28" cy="488" r="9" fill="rgba(250,204,21,.18)"/>
+              <text x="22" y="492" fill="#FACC15" font-size="9" font-weight="700" font-family="sans-serif">MK</text>
+              <text x="42" y="484" fill="#F8FAFC" font-size="10" font-family="sans-serif">Mac K.</text>
+              <text x="42" y="495" fill="#64748B" font-size="9" font-family="sans-serif">Admin</text>
+              <rect x="158" y="0" width="642" height="50" fill="#0A0F1E"/>
+              <line x1="158" y1="50" x2="800" y2="50" stroke="rgba(255,255,255,.07)" stroke-width="1"/>
+              <text x="176" y="31" fill="#F8FAFC" font-size="13" font-weight="600" font-family="sans-serif">Overview</text>
+              <text x="258" y="31" fill="#4A5568" font-size="11" font-family="sans-serif">/ Dashboard</text>
+              <rect x="630" y="14" width="56" height="24" rx="6" fill="rgba(250,204,21,.1)" stroke="rgba(250,204,21,.3)" stroke-width="1"/>
+              <text x="649" y="30" fill="#FACC15" font-size="10" font-family="sans-serif">Export</text>
+              <circle cx="710" cy="25" r="11" fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.07)" stroke-width="1"/>
+              <circle cx="742" cy="25" r="11" fill="rgba(250,204,21,.2)"/>
+              <text x="736" y="29" fill="#FACC15" font-size="9" font-weight="700" font-family="sans-serif">MK</text>
+              <rect x="174" y="64" width="136" height="72" rx="10" fill="#0D1426" stroke="rgba(255,255,255,.07)" stroke-width="1"/>
+              <text x="190" y="83" fill="#64748B" font-size="8.5" font-family="sans-serif" letter-spacing=".4">REVENUE</text>
+              <text x="190" y="107" fill="#FACC15" font-size="21" font-weight="700" font-family="sans-serif">$182K</text>
+              <rect x="190" y="114" width="44" height="13" rx="4" fill="rgba(74,222,128,.12)"/>
+              <text x="194" y="124" fill="#4ADE80" font-size="8" font-family="sans-serif">&#8593; +23.4%</text>
+              <rect x="320" y="64" width="136" height="72" rx="10" fill="#0D1426" stroke="rgba(255,255,255,.07)" stroke-width="1"/>
+              <text x="336" y="83" fill="#64748B" font-size="8.5" font-family="sans-serif" letter-spacing=".4">USERS</text>
+              <text x="336" y="107" fill="#22D3EE" font-size="21" font-weight="700" font-family="sans-serif">12.8K</text>
+              <rect x="336" y="114" width="40" height="13" rx="4" fill="rgba(74,222,128,.12)"/>
+              <text x="340" y="124" fill="#4ADE80" font-size="8" font-family="sans-serif">&#8593; +8.4%</text>
+              <rect x="466" y="64" width="136" height="72" rx="10" fill="#0D1426" stroke="rgba(255,255,255,.07)" stroke-width="1"/>
+              <text x="482" y="83" fill="#64748B" font-size="8.5" font-family="sans-serif" letter-spacing=".4">CONVERSION</text>
+              <text x="482" y="107" fill="#F8FAFC" font-size="21" font-weight="700" font-family="sans-serif">4.7%</text>
+              <rect x="482" y="114" width="42" height="13" rx="4" fill="rgba(74,222,128,.12)"/>
+              <text x="486" y="124" fill="#4ADE80" font-size="8" font-family="sans-serif">&#8593; +0.3pp</text>
+              <rect x="612" y="64" width="164" height="72" rx="10" fill="#0D1426" stroke="rgba(255,255,255,.07)" stroke-width="1"/>
+              <text x="628" y="83" fill="#64748B" font-size="8.5" font-family="sans-serif" letter-spacing=".4">CHURN</text>
+              <text x="628" y="107" fill="#F8FAFC" font-size="21" font-weight="700" font-family="sans-serif">1.2%</text>
+              <rect x="628" y="114" width="44" height="13" rx="4" fill="rgba(248,113,113,.12)"/>
+              <text x="632" y="124" fill="#F87171" font-size="8" font-family="sans-serif">&#8595; -0.2pp</text>
+              <rect x="174" y="150" width="424" height="208" rx="11" fill="#0A0F1E" stroke="rgba(255,255,255,.07)" stroke-width="1"/>
+              <text x="190" y="172" fill="#CBD5E1" font-size="11" font-weight="600" font-family="sans-serif">Revenue Growth</text>
+              <text x="454" y="172" fill="#64748B" font-size="9" font-family="sans-serif">12 months</text>
+              <line x1="190" y1="184" x2="204" y2="184" stroke="#FACC15" stroke-width="2"/>
+              <text x="208" y="187" fill="#CBD5E1" font-size="8.5" font-family="sans-serif">Revenue</text>
+              <line x1="252" y1="184" x2="266" y2="184" stroke="#22D3EE" stroke-width="1.5" stroke-dasharray="4 3"/>
+              <text x="270" y="187" fill="#CBD5E1" font-size="8.5" font-family="sans-serif">Users</text>
+              <line x1="207" y1="200" x2="584" y2="200" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
+              <line x1="207" y1="225" x2="584" y2="225" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
+              <line x1="207" y1="250" x2="584" y2="250" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
+              <line x1="207" y1="275" x2="584" y2="275" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
+              <line x1="207" y1="300" x2="584" y2="300" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
+              <line x1="207" y1="330" x2="584" y2="330" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
+              <text x="205" y="204" fill="#64748B" font-size="7.5" font-family="sans-serif" text-anchor="end">$195K</text>
+              <text x="205" y="254" fill="#64748B" font-size="7.5" font-family="sans-serif" text-anchor="end">$160K</text>
+              <text x="205" y="304" fill="#64748B" font-size="7.5" font-family="sans-serif" text-anchor="end">$130K</text>
+              <polygon points="208,302 242,298 276,305 310,285 344,278 378,290 412,265 446,262 480,247 514,253 548,234 582,215 582,330 208,330" fill="url(#ng1)"/>
+              <polyline points="208,302 242,298 276,305 310,285 344,278 378,290 412,265 446,262 480,247 514,253 548,234 582,215" fill="none" stroke="#FACC15" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+              <polygon points="208,315 242,312 276,318 310,300 344,295 378,306 412,280 446,278 480,264 514,269 548,252 582,238 582,330 208,330" fill="url(#ng2)"/>
+              <polyline points="208,315 242,312 276,318 310,300 344,295 378,306 412,280 446,278 480,264 514,269 548,252 582,238" fill="none" stroke="#22D3EE" stroke-width="1.5" stroke-dasharray="5 3" stroke-linejoin="round" stroke-linecap="round"/>
+              <circle cx="582" cy="215" r="4" fill="#FACC15"/>
+              <circle cx="582" cy="215" r="7" fill="rgba(250,204,21,.2)"/>
+              <text x="208" y="342" fill="#64748B" font-size="7.5" font-family="sans-serif" text-anchor="middle">Apr</text>
+              <text x="276" y="342" fill="#64748B" font-size="7.5" font-family="sans-serif" text-anchor="middle">Jun</text>
+              <text x="344" y="342" fill="#64748B" font-size="7.5" font-family="sans-serif" text-anchor="middle">Aug</text>
+              <text x="412" y="342" fill="#64748B" font-size="7.5" font-family="sans-serif" text-anchor="middle">Oct</text>
+              <text x="480" y="342" fill="#64748B" font-size="7.5" font-family="sans-serif" text-anchor="middle">Dec</text>
+              <text x="582" y="342" fill="#FACC15" font-size="7.5" font-family="sans-serif" text-anchor="middle">Mar</text>
+              <rect x="608" y="150" width="168" height="208" rx="11" fill="#0A0F1E" stroke="rgba(255,255,255,.07)" stroke-width="1"/>
+              <text x="624" y="172" fill="#CBD5E1" font-size="11" font-weight="600" font-family="sans-serif">By Channel</text>
+              <text x="624" y="194" fill="#64748B" font-size="9" font-family="sans-serif">Organic</text>
+              <rect x="624" y="198" width="96" height="7" rx="3.5" fill="rgba(255,255,255,.05)"/>
+              <rect x="624" y="198" width="69" height="7" rx="3.5" fill="#FACC15" opacity=".8"/>
+              <text x="726" y="205" fill="#F8FAFC" font-size="9" font-family="sans-serif">72%</text>
+              <text x="624" y="220" fill="#64748B" font-size="9" font-family="sans-serif">Paid</text>
+              <rect x="624" y="224" width="96" height="7" rx="3.5" fill="rgba(255,255,255,.05)"/>
+              <rect x="624" y="224" width="44" height="7" rx="3.5" fill="#22D3EE" opacity=".8"/>
+              <text x="726" y="231" fill="#F8FAFC" font-size="9" font-family="sans-serif">46%</text>
+              <text x="624" y="246" fill="#64748B" font-size="9" font-family="sans-serif">Referral</text>
+              <rect x="624" y="250" width="96" height="7" rx="3.5" fill="rgba(255,255,255,.05)"/>
+              <rect x="624" y="250" width="30" height="7" rx="3.5" fill="#A78BFA" opacity=".8"/>
+              <text x="726" y="257" fill="#F8FAFC" font-size="9" font-family="sans-serif">31%</text>
+              <text x="624" y="272" fill="#64748B" font-size="9" font-family="sans-serif">Social</text>
+              <rect x="624" y="276" width="96" height="7" rx="3.5" fill="rgba(255,255,255,.05)"/>
+              <rect x="624" y="276" width="17" height="7" rx="3.5" fill="#4ADE80" opacity=".8"/>
+              <text x="726" y="283" fill="#F8FAFC" font-size="9" font-family="sans-serif">18%</text>
+              <text x="624" y="298" fill="#64748B" font-size="9" font-family="sans-serif">Direct</text>
+              <rect x="624" y="302" width="96" height="7" rx="3.5" fill="rgba(255,255,255,.05)"/>
+              <rect x="624" y="302" width="12" height="7" rx="3.5" fill="#F87171" opacity=".8"/>
+              <text x="726" y="309" fill="#F8FAFC" font-size="9" font-family="sans-serif">12%</text>
+              <rect x="174" y="372" width="602" height="124" rx="11" fill="#0A0F1E" stroke="rgba(255,255,255,.07)" stroke-width="1"/>
+              <rect x="174" y="372" width="602" height="26" rx="11" fill="rgba(255,255,255,.03)"/>
+              <rect x="174" y="390" width="602" height="8" fill="rgba(255,255,255,.03)"/>
+              <text x="192" y="389" fill="#64748B" font-size="8.5" font-family="sans-serif" letter-spacing=".4">WORKSPACE</text>
+              <text x="372" y="389" fill="#64748B" font-size="8.5" font-family="sans-serif" letter-spacing=".4">PLAN</text>
+              <text x="468" y="389" fill="#64748B" font-size="8.5" font-family="sans-serif" letter-spacing=".4">MRR</text>
+              <text x="558" y="389" fill="#64748B" font-size="8.5" font-family="sans-serif" letter-spacing=".4">STATUS</text>
+              <text x="666" y="389" fill="#64748B" font-size="8.5" font-family="sans-serif" letter-spacing=".4">SCORE</text>
+              <line x1="174" y1="400" x2="776" y2="400" stroke="rgba(255,255,255,.05)" stroke-width="1"/>
+              <rect x="184" y="405" width="8" height="8" rx="2" fill="#FACC15" opacity=".5"/>
+              <text x="198" y="413" fill="#CBD5E1" font-size="9" font-family="sans-serif">Acme Corp</text>
+              <text x="372" y="413" fill="#64748B" font-size="9" font-family="sans-serif">Enterprise</text>
+              <text x="468" y="413" fill="#4ADE80" font-size="9" font-family="sans-serif">$4,800</text>
+              <rect x="548" y="404" width="38" height="13" rx="4" fill="rgba(74,222,128,.12)"/>
+              <text x="553" y="414" fill="#4ADE80" font-size="8" font-family="sans-serif">Active</text>
+              <text x="666" y="413" fill="#F8FAFC" font-size="9" font-family="sans-serif">98</text>
+              <line x1="174" y1="422" x2="776" y2="422" stroke="rgba(255,255,255,.05)" stroke-width="1"/>
+              <rect x="184" y="427" width="8" height="8" rx="2" fill="#22D3EE" opacity=".5"/>
+              <text x="198" y="435" fill="#CBD5E1" font-size="9" font-family="sans-serif">Vercel Inc.</text>
+              <text x="372" y="435" fill="#64748B" font-size="9" font-family="sans-serif">Growth</text>
+              <text x="468" y="435" fill="#4ADE80" font-size="9" font-family="sans-serif">$1,200</text>
+              <rect x="548" y="426" width="38" height="13" rx="4" fill="rgba(74,222,128,.12)"/>
+              <text x="553" y="436" fill="#4ADE80" font-size="8" font-family="sans-serif">Active</text>
+              <text x="666" y="435" fill="#F8FAFC" font-size="9" font-family="sans-serif">94</text>
+              <line x1="174" y1="444" x2="776" y2="444" stroke="rgba(255,255,255,.05)" stroke-width="1"/>
+              <rect x="184" y="449" width="8" height="8" rx="2" fill="#A78BFA" opacity=".5"/>
+              <text x="198" y="457" fill="#CBD5E1" font-size="9" font-family="sans-serif">Stripe LLC</text>
+              <text x="372" y="457" fill="#64748B" font-size="9" font-family="sans-serif">Pro</text>
+              <text x="468" y="457" fill="#4ADE80" font-size="9" font-family="sans-serif">$490</text>
+              <rect x="548" y="448" width="44" height="13" rx="4" fill="rgba(248,191,71,.12)"/>
+              <text x="553" y="458" fill="#FBB73E" font-size="8" font-family="sans-serif">Trial</text>
+              <text x="666" y="457" fill="#F8FAFC" font-size="9" font-family="sans-serif">87</text>
+            </svg>
+          </div>
+          <div class="pj-arrow-btn">&#8599;</div>
+          <div class="pj-foot">
+            <div class="pj-tag">SaaS Platform</div>
+            <div class="pj-title">NOVA — Analytics Platform</div>
+            <div class="pj-excerpt">Real-time SaaS dashboards with AI-powered growth insights and white-label API for B2B teams.</div>
+            <div class="pj-open">View details <span class="pj-open-dot">&#8599;</span></div>
+          </div>
+        </div>
+
+        <!-- ══ ARC ══ -->
+        <div class="pj" data-project="arc">
+          <div class="pj-mockup-wrap">
+            <svg viewBox="0 0 800 512" xmlns="http://www.w3.org/2000/svg">
+              <rect width="800" height="512" fill="#060F12"/>
+              <line x1="0" y1="128" x2="800" y2="128" stroke="rgba(34,211,238,.04)" stroke-width="1"/>
+              <line x1="0" y1="256" x2="800" y2="256" stroke="rgba(34,211,238,.04)" stroke-width="1"/>
+              <line x1="0" y1="384" x2="800" y2="384" stroke="rgba(34,211,238,.04)" stroke-width="1"/>
+              <rect width="800" height="52" fill="rgba(8,20,24,.95)"/>
+              <line x1="0" y1="52" x2="800" y2="52" stroke="rgba(255,255,255,.07)" stroke-width="1"/>
+              <text x="20" y="34" fill="#22D3EE" font-size="14" font-weight="700" font-family="sans-serif" letter-spacing="3">ARC</text>
+              <rect x="64" y="20" width="66" height="18" rx="9" fill="rgba(34,211,238,.1)" stroke="rgba(34,211,238,.2)" stroke-width="1"/>
+              <circle cx="74" cy="29" r="3" fill="#4ADE80"/>
+              <text x="81" y="33" fill="#22D3EE" font-size="9" font-family="sans-serif">Live</text>
+              <text x="180" y="33" fill="#22D3EE" font-size="11" font-weight="600" font-family="sans-serif">Portfolio</text>
+              <line x1="180" y1="50" x2="224" y2="50" stroke="#22D3EE" stroke-width="2"/>
+              <text x="244" y="33" fill="#64748B" font-size="11" font-family="sans-serif">Swap</text>
+              <text x="300" y="33" fill="#64748B" font-size="11" font-family="sans-serif">Bridge</text>
+              <text x="364" y="33" fill="#64748B" font-size="11" font-family="sans-serif">History</text>
+              <rect x="638" y="16" width="144" height="22" rx="6" fill="rgba(34,211,238,.08)" stroke="rgba(34,211,238,.2)" stroke-width="1"/>
+              <text x="650" y="31" fill="#22D3EE" font-size="9.5" font-family="sans-serif">0xA1f...9f42</text>
+              <line x1="310" y1="52" x2="310" y2="512" stroke="rgba(255,255,255,.07)" stroke-width="1"/>
+              <text x="24" y="84" fill="#64748B" font-size="9" font-family="sans-serif" letter-spacing=".5">TOTAL PORTFOLIO VALUE</text>
+              <text x="24" y="116" fill="#F8FAFC" font-size="26" font-weight="700" font-family="sans-serif">$284,500</text>
+              <rect x="24" y="124" width="122" height="20" rx="6" fill="rgba(74,222,128,.12)"/>
+              <text x="30" y="137" fill="#4ADE80" font-size="10" font-family="sans-serif">&#8593; +$3,840 (1.37%)</text>
+              <text x="24" y="162" fill="#64748B" font-size="9" font-family="sans-serif">4 wallets synced &#183; 3m ago</text>
+              <text x="24" y="192" fill="#64748B" font-size="9" font-family="sans-serif" letter-spacing=".5">ALLOCATION</text>
+              <circle cx="155" cy="330" r="70" fill="none" stroke="#22D3EE" stroke-width="22" stroke-dasharray="176 264" stroke-dashoffset="0" transform="rotate(-90 155 330)" opacity=".85"/>
+              <circle cx="155" cy="330" r="70" fill="none" stroke="#FACC15" stroke-width="22" stroke-dasharray="132 308" stroke-dashoffset="-176" transform="rotate(-90 155 330)" opacity=".85"/>
+              <circle cx="155" cy="330" r="70" fill="none" stroke="#A78BFA" stroke-width="22" stroke-dasharray="88 352" stroke-dashoffset="-308" transform="rotate(-90 155 330)" opacity=".85"/>
+              <circle cx="155" cy="330" r="70" fill="none" stroke="#4ADE80" stroke-width="22" stroke-dasharray="44 396" stroke-dashoffset="-396" transform="rotate(-90 155 330)" opacity=".85"/>
+              <circle cx="155" cy="330" r="48" fill="#060F12"/>
+              <text x="155" y="325" fill="#64748B" font-size="9" font-family="sans-serif" text-anchor="middle">Portfolio</text>
+              <text x="155" y="342" fill="#F8FAFC" font-size="14" font-weight="700" font-family="sans-serif" text-anchor="middle">$284K</text>
+              <circle cx="28" cy="422" r="5" fill="#22D3EE"/>
+              <text x="38" y="426" fill="#CBD5E1" font-size="9" font-family="sans-serif">ETH 40%</text>
+              <circle cx="28" cy="440" r="5" fill="#FACC15"/>
+              <text x="38" y="444" fill="#CBD5E1" font-size="9" font-family="sans-serif">BTC 30%</text>
+              <circle cx="130" cy="422" r="5" fill="#A78BFA"/>
+              <text x="140" y="426" fill="#CBD5E1" font-size="9" font-family="sans-serif">SOL 20%</text>
+              <circle cx="130" cy="440" r="5" fill="#4ADE80"/>
+              <text x="140" y="444" fill="#CBD5E1" font-size="9" font-family="sans-serif">MATIC 10%</text>
+              <text x="330" y="78" fill="#64748B" font-size="8.5" font-family="sans-serif" letter-spacing=".4">ASSET</text>
+              <text x="494" y="78" fill="#64748B" font-size="8.5" font-family="sans-serif" letter-spacing=".4">BALANCE</text>
+              <text x="576" y="78" fill="#64748B" font-size="8.5" font-family="sans-serif" letter-spacing=".4">PRICE</text>
+              <text x="650" y="78" fill="#64748B" font-size="8.5" font-family="sans-serif" letter-spacing=".4">24H</text>
+              <text x="716" y="78" fill="#64748B" font-size="8.5" font-family="sans-serif" letter-spacing=".4">VALUE</text>
+              <line x1="310" y1="90" x2="800" y2="90" stroke="rgba(255,255,255,.05)" stroke-width="1"/>
+              <circle cx="348" cy="118" r="14" fill="rgba(34,211,238,.1)" stroke="rgba(34,211,238,.2)" stroke-width="1"/>
+              <text x="341" y="123" fill="#22D3EE" font-size="13" font-family="sans-serif">&#926;</text>
+              <text x="372" y="113" fill="#F8FAFC" font-size="11" font-weight="600" font-family="sans-serif">Ethereum</text>
+              <text x="372" y="127" fill="#64748B" font-size="9" font-family="sans-serif">ETH</text>
+              <text x="494" y="120" fill="#CBD5E1" font-size="10" font-family="sans-serif">2.84 ETH</text>
+              <text x="576" y="120" fill="#CBD5E1" font-size="10" font-family="sans-serif">$3,200</text>
+              <text x="650" y="120" fill="#4ADE80" font-size="10" font-family="sans-serif">+2.1%</text>
+              <polyline points="440,130 453,124 466,120 479,115 492,111 505,107" fill="none" stroke="#22D3EE" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity=".7"/>
+              <text x="716" y="120" fill="#F8FAFC" font-size="10" font-family="sans-serif">$9,088</text>
+              <line x1="310" y1="146" x2="800" y2="146" stroke="rgba(255,255,255,.05)" stroke-width="1"/>
+              <circle cx="348" cy="178" r="14" fill="rgba(250,204,21,.1)" stroke="rgba(250,204,21,.2)" stroke-width="1"/>
+              <text x="342" y="183" fill="#FACC15" font-size="12" font-family="sans-serif">&#8383;</text>
+              <text x="372" y="173" fill="#F8FAFC" font-size="11" font-weight="600" font-family="sans-serif">Bitcoin</text>
+              <text x="372" y="187" fill="#64748B" font-size="9" font-family="sans-serif">BTC</text>
+              <text x="494" y="180" fill="#CBD5E1" font-size="10" font-family="sans-serif">0.18 BTC</text>
+              <text x="576" y="180" fill="#CBD5E1" font-size="10" font-family="sans-serif">$65,400</text>
+              <text x="650" y="180" fill="#4ADE80" font-size="10" font-family="sans-serif">+0.8%</text>
+              <polyline points="440,190 453,186 466,188 479,182 492,179 505,175" fill="none" stroke="#FACC15" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity=".7"/>
+              <text x="716" y="180" fill="#F8FAFC" font-size="10" font-family="sans-serif">$11,772</text>
+              <line x1="310" y1="206" x2="800" y2="206" stroke="rgba(255,255,255,.05)" stroke-width="1"/>
+              <circle cx="348" cy="238" r="14" fill="rgba(167,139,250,.1)" stroke="rgba(167,139,250,.2)" stroke-width="1"/>
+              <text x="341" y="243" fill="#A78BFA" font-size="12" font-family="sans-serif">&#9675;</text>
+              <text x="372" y="233" fill="#F8FAFC" font-size="11" font-weight="600" font-family="sans-serif">Solana</text>
+              <text x="372" y="247" fill="#64748B" font-size="9" font-family="sans-serif">SOL</text>
+              <text x="494" y="240" fill="#CBD5E1" font-size="10" font-family="sans-serif">42.5 SOL</text>
+              <text x="576" y="240" fill="#CBD5E1" font-size="10" font-family="sans-serif">$185</text>
+              <text x="650" y="240" fill="#4ADE80" font-size="10" font-family="sans-serif">+4.2%</text>
+              <polyline points="440,250 453,244 466,238 479,232 492,226 505,219" fill="none" stroke="#A78BFA" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity=".7"/>
+              <text x="716" y="240" fill="#F8FAFC" font-size="10" font-family="sans-serif">$7,862</text>
+              <line x1="310" y1="266" x2="800" y2="266" stroke="rgba(255,255,255,.05)" stroke-width="1"/>
+              <circle cx="348" cy="298" r="14" fill="rgba(74,222,128,.1)" stroke="rgba(74,222,128,.2)" stroke-width="1"/>
+              <text x="372" y="293" fill="#F8FAFC" font-size="11" font-weight="600" font-family="sans-serif">Polygon</text>
+              <text x="372" y="307" fill="#64748B" font-size="9" font-family="sans-serif">MATIC</text>
+              <text x="494" y="300" fill="#CBD5E1" font-size="10" font-family="sans-serif">3,240 MATIC</text>
+              <text x="576" y="300" fill="#CBD5E1" font-size="10" font-family="sans-serif">$0.95</text>
+              <text x="650" y="300" fill="#F87171" font-size="10" font-family="sans-serif">-0.6%</text>
+              <polyline points="440,308 453,305 466,310 479,312 492,316 505,318" fill="none" stroke="#F87171" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity=".6"/>
+              <text x="716" y="300" fill="#F8FAFC" font-size="10" font-family="sans-serif">$3,078</text>
+              <line x1="310" y1="335" x2="800" y2="335" stroke="rgba(255,255,255,.07)" stroke-width="1"/>
+              <text x="330" y="358" fill="#64748B" font-size="9" font-family="sans-serif" letter-spacing=".5">RECENT ACTIVITY</text>
+              <line x1="310" y1="368" x2="800" y2="368" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
+              <rect x="324" y="375" width="16" height="16" rx="4" fill="rgba(34,211,238,.1)"/>
+              <text x="350" y="387" fill="#CBD5E1" font-size="9.5" font-family="sans-serif">Swap ETH &#8594; USDC</text>
+              <text x="650" y="387" fill="#4ADE80" font-size="9.5" font-family="sans-serif">+$1,200</text>
+              <text x="716" y="387" fill="#64748B" font-size="9" font-family="sans-serif">2m ago</text>
+              <line x1="310" y1="399" x2="800" y2="399" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
+              <rect x="324" y="406" width="16" height="16" rx="4" fill="rgba(250,204,21,.1)"/>
+              <text x="350" y="418" fill="#CBD5E1" font-size="9.5" font-family="sans-serif">Receive BTC</text>
+              <text x="650" y="418" fill="#4ADE80" font-size="9.5" font-family="sans-serif">+0.05 BTC</text>
+              <text x="716" y="418" fill="#64748B" font-size="9" font-family="sans-serif">1h ago</text>
+              <line x1="310" y1="430" x2="800" y2="430" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
+              <rect x="324" y="437" width="16" height="16" rx="4" fill="rgba(167,139,250,.1)"/>
+              <text x="350" y="449" fill="#CBD5E1" font-size="9.5" font-family="sans-serif">Send SOL</text>
+              <text x="650" y="449" fill="#F87171" font-size="9.5" font-family="sans-serif">-15 SOL</text>
+              <text x="716" y="449" fill="#64748B" font-size="9" font-family="sans-serif">3h ago</text>
+              <line x1="310" y1="460" x2="800" y2="460" stroke="rgba(255,255,255,.07)" stroke-width="1"/>
+              <text x="330" y="478" fill="#64748B" font-size="9" font-family="sans-serif">Connected:</text>
+              <rect x="402" y="465" width="60" height="17" rx="8" fill="rgba(34,211,238,.1)" stroke="rgba(34,211,238,.15)" stroke-width="1"/>
+              <text x="414" y="477" fill="#22D3EE" font-size="8.5" font-family="sans-serif">Ethereum</text>
+              <rect x="470" y="465" width="44" height="17" rx="8" fill="rgba(250,204,21,.1)" stroke="rgba(250,204,21,.15)" stroke-width="1"/>
+              <text x="480" y="477" fill="#FACC15" font-size="8.5" font-family="sans-serif">Bitcoin</text>
+              <rect x="522" y="465" width="40" height="17" rx="8" fill="rgba(167,139,250,.1)" stroke="rgba(167,139,250,.15)" stroke-width="1"/>
+              <text x="532" y="477" fill="#A78BFA" font-size="8.5" font-family="sans-serif">Solana</text>
+              <rect x="570" y="465" width="52" height="17" rx="8" fill="rgba(74,222,128,.1)" stroke="rgba(74,222,128,.15)" stroke-width="1"/>
+              <text x="580" y="477" fill="#4ADE80" font-size="8.5" font-family="sans-serif">Polygon</text>
+              <text x="630" y="478" fill="#64748B" font-size="8.5" font-family="sans-serif">+4 more</text>
+            </svg>
+          </div>
+          <div class="pj-arrow-btn">&#8599;</div>
+          <div class="pj-foot">
+            <div class="pj-tag">Web3 / DeFi</div>
+            <div class="pj-title">ARC — DeFi Portfolio Tracker</div>
+            <div class="pj-excerpt">Multi-chain wallet aggregation with risk scoring across 8 blockchain networks in real time.</div>
+            <div class="pj-open">View details <span class="pj-open-dot">&#8599;</span></div>
+          </div>
+        </div>
+
+        <!-- ══ VEIL ══ -->
+        <div class="pj" data-project="veil">
+          <div class="pj-mockup-wrap">
+            <svg viewBox="0 0 800 512" xmlns="http://www.w3.org/2000/svg">
+              <rect width="800" height="512" fill="#070810"/>
+              <rect width="800" height="52" fill="#0B0D18"/>
+              <line x1="0" y1="52" x2="800" y2="52" stroke="rgba(255,255,255,.07)" stroke-width="1"/>
+              <text x="20" y="33" fill="#F8FAFC" font-size="14" font-weight="700" font-family="sans-serif" letter-spacing="2">VEIL</text>
+              <rect x="72" y="20" width="80" height="18" rx="9" fill="rgba(248,113,113,.1)" stroke="rgba(248,113,113,.2)" stroke-width="1"/>
+              <circle cx="83" cy="29" r="3" fill="#F87171"/>
+              <text x="90" y="33" fill="#F87171" font-size="9" font-family="sans-serif">3 Alerts</text>
+              <text x="200" y="33" fill="#CBD5E1" font-size="11" font-family="sans-serif">Overview</text>
+              <line x1="200" y1="50" x2="248" y2="50" stroke="#F87171" stroke-width="2"/>
+              <text x="265" y="33" fill="#64748B" font-size="11" font-family="sans-serif">Policies</text>
+              <text x="325" y="33" fill="#64748B" font-size="11" font-family="sans-serif">Identities</text>
+              <text x="400" y="33" fill="#64748B" font-size="11" font-family="sans-serif">Audit Log</text>
+              <rect x="620" y="12" width="164" height="30" rx="6" fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.07)" stroke-width="1"/>
+              <text x="636" y="31" fill="#64748B" font-size="9" font-family="sans-serif">Threat Score:</text>
+              <text x="706" y="31" fill="#4ADE80" font-size="11" font-weight="700" font-family="sans-serif">LOW</text>
+              <circle cx="740" cy="27" r="5" fill="#4ADE80"/>
+              <circle cx="740" cy="27" r="9" fill="rgba(74,222,128,.2)"/>
+              <line x1="440" y1="52" x2="440" y2="512" stroke="rgba(255,255,255,.07)" stroke-width="1"/>
+              <text x="24" y="80" fill="#64748B" font-size="9" font-family="sans-serif" letter-spacing=".5">NETWORK THREAT MAP</text>
+              <circle cx="80" cy="200" r="6" fill="rgba(248,113,113,.3)" stroke="#F87171" stroke-width="1"/>
+              <circle cx="80" cy="200" r="12" fill="rgba(248,113,113,.1)" stroke="rgba(248,113,113,.2)" stroke-width="1"/>
+              <circle cx="190" cy="140" r="5" fill="rgba(248,113,113,.2)" stroke="#F87171" stroke-width="1" opacity=".7"/>
+              <circle cx="350" cy="120" r="4" fill="rgba(248,113,113,.2)" stroke="#F87171" stroke-width="1" opacity=".6"/>
+              <circle cx="360" cy="270" r="6" fill="rgba(251,183,62,.3)" stroke="#FBB73E" stroke-width="1"/>
+              <circle cx="360" cy="270" r="11" fill="rgba(251,183,62,.1)"/>
+              <circle cx="100" cy="340" r="4" fill="rgba(248,113,113,.15)" stroke="#F87171" stroke-width="1" opacity=".5"/>
+              <line x1="190" y1="140" x2="220" y2="290" stroke="rgba(248,113,113,.2)" stroke-width="1" stroke-dasharray="4 3"/>
+              <line x1="350" y1="120" x2="220" y2="290" stroke="rgba(251,183,62,.25)" stroke-width="1" stroke-dasharray="4 3"/>
+              <line x1="360" y1="270" x2="220" y2="290" stroke="rgba(251,183,62,.3)" stroke-width="1" stroke-dasharray="4 3"/>
+              <circle cx="220" cy="290" r="28" fill="rgba(74,222,128,.08)" stroke="rgba(74,222,128,.4)" stroke-width="2"/>
+              <circle cx="220" cy="290" r="18" fill="rgba(74,222,128,.12)" stroke="rgba(74,222,128,.5)" stroke-width="1.5"/>
+              <circle cx="220" cy="290" r="8" fill="rgba(74,222,128,.3)" stroke="#4ADE80" stroke-width="1"/>
+              <text x="220" y="328" fill="#4ADE80" font-size="8" font-family="sans-serif" text-anchor="middle">Protected</text>
+              <circle cx="140" cy="380" r="5" fill="rgba(34,211,238,.2)" stroke="#22D3EE" stroke-width="1"/>
+              <line x1="140" y1="380" x2="220" y2="290" stroke="rgba(34,211,238,.2)" stroke-width="1"/>
+              <circle cx="310" cy="380" r="5" fill="rgba(34,211,238,.2)" stroke="#22D3EE" stroke-width="1"/>
+              <line x1="310" y1="380" x2="220" y2="290" stroke="rgba(34,211,238,.2)" stroke-width="1"/>
+              <circle cx="120" cy="160" r="5" fill="rgba(34,211,238,.2)" stroke="#22D3EE" stroke-width="1"/>
+              <line x1="120" y1="160" x2="220" y2="290" stroke="rgba(34,211,238,.15)" stroke-width="1"/>
+              <line x1="80" y1="200" x2="220" y2="290" stroke="rgba(248,113,113,.5)" stroke-width="1.5" stroke-dasharray="3 3"/>
+              <rect x="134" y="238" width="14" height="10" rx="2" fill="rgba(248,113,113,.2)" stroke="#F87171" stroke-width="1"/>
+              <text x="136" y="246" fill="#F87171" font-size="7" font-family="sans-serif">x</text>
+              <rect x="24" y="440" width="390" height="60" rx="10" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.07)" stroke-width="1"/>
+              <text x="60" y="466" fill="#F87171" font-size="18" font-weight="700" font-family="sans-serif">24</text>
+              <text x="60" y="480" fill="#64748B" font-size="9" font-family="sans-serif">Blocked</text>
+              <text x="180" y="466" fill="#FBB73E" font-size="18" font-weight="700" font-family="sans-serif">3</text>
+              <text x="172" y="480" fill="#64748B" font-size="9" font-family="sans-serif">Investigating</text>
+              <text x="290" y="466" fill="#4ADE80" font-size="16" font-weight="700" font-family="sans-serif">99.99%</text>
+              <text x="290" y="480" fill="#64748B" font-size="9" font-family="sans-serif">Uptime</text>
+              <text x="460" y="80" fill="#64748B" font-size="9" font-family="sans-serif" letter-spacing=".5">LIVE ALERT FEED</text>
+              <rect x="452" y="90" width="332" height="62" rx="8" fill="rgba(248,113,113,.06)" stroke="rgba(248,113,113,.2)" stroke-width="1"/>
+              <rect x="452" y="90" width="4" height="62" rx="2" fill="#F87171"/>
+              <rect x="466" y="99" width="36" height="14" rx="4" fill="rgba(248,113,113,.15)"/>
+              <text x="471" y="110" fill="#F87171" font-size="8.5" font-family="sans-serif">CRITICAL</text>
+              <text x="516" y="110" fill="#CBD5E1" font-size="10" font-family="sans-serif">Brute Force — SSH Port 22</text>
+              <text x="460" y="128" fill="#64748B" font-size="8.5" font-family="sans-serif">IP: 185.220.101.8 &#183; 1,248 attempts &#183; auto-blocked</text>
+              <text x="734" y="110" fill="#64748B" font-size="8.5" font-family="sans-serif">2s ago</text>
+              <rect x="452" y="162" width="332" height="62" rx="8" fill="rgba(251,183,62,.05)" stroke="rgba(251,183,62,.18)" stroke-width="1"/>
+              <rect x="452" y="162" width="4" height="62" rx="2" fill="#FBB73E"/>
+              <rect x="466" y="171" width="30" height="14" rx="4" fill="rgba(251,183,62,.15)"/>
+              <text x="471" y="182" fill="#FBB73E" font-size="8.5" font-family="sans-serif">HIGH</text>
+              <text x="510" y="182" fill="#CBD5E1" font-size="10" font-family="sans-serif">Privilege Escalation Attempt</text>
+              <text x="460" y="200" fill="#64748B" font-size="8.5" font-family="sans-serif">User: bob@acme.com &#183; Role override blocked</text>
+              <text x="734" y="182" fill="#64748B" font-size="8.5" font-family="sans-serif">14s ago</text>
+              <rect x="452" y="234" width="332" height="62" rx="8" fill="rgba(250,204,21,.04)" stroke="rgba(250,204,21,.15)" stroke-width="1"/>
+              <rect x="452" y="234" width="4" height="62" rx="2" fill="#FACC15"/>
+              <rect x="466" y="243" width="44" height="14" rx="4" fill="rgba(250,204,21,.12)"/>
+              <text x="471" y="254" fill="#FACC15" font-size="8.5" font-family="sans-serif">MEDIUM</text>
+              <text x="524" y="254" fill="#CBD5E1" font-size="10" font-family="sans-serif">Unusual Login Location</text>
+              <text x="460" y="272" fill="#64748B" font-size="8.5" font-family="sans-serif">User: alice@corp.io &#183; Country: RU &#183; MFA challenged</text>
+              <text x="734" y="254" fill="#64748B" font-size="8.5" font-family="sans-serif">1m ago</text>
+              <text x="460" y="316" fill="#64748B" font-size="9" font-family="sans-serif" letter-spacing=".5">ACCESS POLICIES</text>
+              <line x1="452" y1="325" x2="784" y2="325" stroke="rgba(255,255,255,.07)" stroke-width="1"/>
+              <text x="460" y="340" fill="#64748B" font-size="8.5" font-family="sans-serif">POLICY</text>
+              <text x="640" y="340" fill="#64748B" font-size="8.5" font-family="sans-serif">SUBJECTS</text>
+              <text x="726" y="340" fill="#64748B" font-size="8.5" font-family="sans-serif">STATUS</text>
+              <line x1="452" y1="350" x2="784" y2="350" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
+              <text x="460" y="366" fill="#CBD5E1" font-size="9" font-family="sans-serif">Zero Trust Network Access</text>
+              <text x="640" y="366" fill="#64748B" font-size="9" font-family="sans-serif">All users</text>
+              <rect x="720" y="358" width="38" height="13" rx="4" fill="rgba(74,222,128,.12)"/>
+              <text x="725" y="368" fill="#4ADE80" font-size="8" font-family="sans-serif">Active</text>
+              <line x1="452" y1="378" x2="784" y2="378" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
+              <text x="460" y="394" fill="#CBD5E1" font-size="9" font-family="sans-serif">MFA Enforce — Prod Env</text>
+              <text x="640" y="394" fill="#64748B" font-size="9" font-family="sans-serif">Admins</text>
+              <rect x="720" y="386" width="38" height="13" rx="4" fill="rgba(74,222,128,.12)"/>
+              <text x="725" y="396" fill="#4ADE80" font-size="8" font-family="sans-serif">Active</text>
+              <line x1="452" y1="406" x2="784" y2="406" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
+              <text x="460" y="422" fill="#CBD5E1" font-size="9" font-family="sans-serif">VPN Bypass Rule — CI/CD</text>
+              <text x="640" y="422" fill="#64748B" font-size="9" font-family="sans-serif">Service accts</text>
+              <rect x="720" y="414" width="44" height="13" rx="4" fill="rgba(251,183,62,.12)"/>
+              <text x="725" y="424" fill="#FBB73E" font-size="8" font-family="sans-serif">Review</text>
+              <line x1="452" y1="434" x2="784" y2="434" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
+              <text x="460" y="450" fill="#CBD5E1" font-size="9" font-family="sans-serif">Geo-Block Non-EU Traffic</text>
+              <text x="640" y="450" fill="#64748B" font-size="9" font-family="sans-serif">All</text>
+              <rect x="720" y="442" width="38" height="13" rx="4" fill="rgba(74,222,128,.12)"/>
+              <text x="725" y="452" fill="#4ADE80" font-size="8" font-family="sans-serif">Active</text>
+            </svg>
+          </div>
+          <div class="pj-arrow-btn">&#8599;</div>
+          <div class="pj-foot">
+            <div class="pj-tag">Security</div>
+            <div class="pj-title">VEIL — Zero-Trust Console</div>
+            <div class="pj-excerpt">Enterprise access control with identity mesh and real-time threat intelligence monitoring.</div>
+            <div class="pj-open">View details <span class="pj-open-dot">&#8599;</span></div>
+          </div>
+        </div>
+
+        <!-- ══ FLUX ══ -->
+        <div class="pj" data-project="flux">
+          <div class="pj-mockup-wrap">
+            <svg viewBox="0 0 800 512" xmlns="http://www.w3.org/2000/svg">
+              <rect width="800" height="512" fill="#080A18"/>
+              <rect width="800" height="52" fill="#0B0E1E"/>
+              <line x1="0" y1="52" x2="800" y2="52" stroke="rgba(255,255,255,.07)" stroke-width="1"/>
+              <text x="20" y="33" fill="#F8FAFC" font-size="13" font-weight="700" font-family="sans-serif" letter-spacing="2">FLUX</text>
+              <text x="78" y="33" fill="#64748B" font-size="11" font-family="sans-serif">Document Intelligence</text>
+              <rect x="230" y="14" width="90" height="26" rx="6" fill="rgba(167,139,250,.1)" stroke="rgba(167,139,250,.25)" stroke-width="1"/>
+              <text x="242" y="31" fill="#A78BFA" font-size="10" font-family="sans-serif">contract.pdf</text>
+              <rect x="330" y="14" width="82" height="26" rx="6" fill="rgba(255,255,255,.04)"/>
+              <text x="342" y="31" fill="#64748B" font-size="10" font-family="sans-serif">invoice.pdf</text>
+              <rect x="422" y="14" width="76" height="26" rx="6" fill="rgba(255,255,255,.04)"/>
+              <text x="434" y="31" fill="#64748B" font-size="10" font-family="sans-serif">form-w9.pdf</text>
+              <rect x="614" y="14" width="80" height="26" rx="6" fill="rgba(167,139,250,.1)" stroke="rgba(167,139,250,.25)" stroke-width="1"/>
+              <text x="622" y="31" fill="#A78BFA" font-size="9.5" font-family="sans-serif">Claude 3.5 &#9660;</text>
+              <rect x="704" y="14" width="82" height="26" rx="6" fill="rgba(250,204,21,.15)" stroke="rgba(250,204,21,.3)" stroke-width="1"/>
+              <text x="724" y="31" fill="#FACC15" font-size="10" font-family="sans-serif">&#9654; Run</text>
+              <line x1="400" y1="52" x2="400" y2="512" stroke="rgba(255,255,255,.07)" stroke-width="1"/>
+              <rect x="0" y="52" width="400" height="30" fill="rgba(255,255,255,.02)"/>
+              <line x1="0" y1="82" x2="400" y2="82" stroke="rgba(255,255,255,.06)" stroke-width="1"/>
+              <text x="16" y="71" fill="#64748B" font-size="9" font-family="sans-serif">Page 2/8 &#183; contract.pdf</text>
+              <rect x="24" y="94" width="352" height="400" rx="4" fill="#1A1F35"/>
+              <rect x="80" y="108" width="208" height="10" rx="2" fill="rgba(255,255,255,.12)"/>
+              <rect x="48" y="132" width="300" height="6" rx="1.5" fill="rgba(255,255,255,.07)"/>
+              <rect x="48" y="144" width="280" height="6" rx="1.5" fill="rgba(255,255,255,.07)"/>
+              <rect x="48" y="156" width="290" height="6" rx="1.5" fill="rgba(255,255,255,.07)"/>
+              <rect x="48" y="174" width="300" height="28" rx="3" fill="rgba(167,139,250,.15)" stroke="rgba(167,139,250,.3)" stroke-width="1"/>
+              <rect x="48" y="178" width="272" height="6" rx="1.5" fill="rgba(167,139,250,.4)"/>
+              <rect x="48" y="190" width="240" height="6" rx="1.5" fill="rgba(167,139,250,.4)"/>
+              <rect x="308" y="172" width="48" height="14" rx="4" fill="rgba(167,139,250,.2)" stroke="rgba(167,139,250,.4)" stroke-width="1"/>
+              <text x="314" y="182" fill="#A78BFA" font-size="8" font-family="sans-serif">PARTY</text>
+              <rect x="48" y="212" width="300" height="6" rx="1.5" fill="rgba(255,255,255,.07)"/>
+              <rect x="48" y="224" width="260" height="6" rx="1.5" fill="rgba(255,255,255,.07)"/>
+              <rect x="48" y="236" width="295" height="6" rx="1.5" fill="rgba(255,255,255,.07)"/>
+              <rect x="48" y="254" width="300" height="28" rx="3" fill="rgba(250,204,21,.1)" stroke="rgba(250,204,21,.25)" stroke-width="1"/>
+              <rect x="48" y="258" width="280" height="6" rx="1.5" fill="rgba(250,204,21,.35)"/>
+              <rect x="48" y="270" width="220" height="6" rx="1.5" fill="rgba(250,204,21,.35)"/>
+              <rect x="300" y="252" width="56" height="14" rx="4" fill="rgba(250,204,21,.15)" stroke="rgba(250,204,21,.3)" stroke-width="1"/>
+              <text x="304" y="262" fill="#FACC15" font-size="8" font-family="sans-serif">AMOUNT</text>
+              <rect x="48" y="292" width="300" height="6" rx="1.5" fill="rgba(255,255,255,.07)"/>
+              <rect x="48" y="304" width="260" height="6" rx="1.5" fill="rgba(255,255,255,.07)"/>
+              <rect x="48" y="322" width="200" height="20" rx="3" fill="rgba(34,211,238,.1)" stroke="rgba(34,211,238,.25)" stroke-width="1"/>
+              <rect x="48" y="326" width="180" height="6" rx="1.5" fill="rgba(34,211,238,.35)"/>
+              <rect x="228" y="320" width="36" height="14" rx="4" fill="rgba(34,211,238,.15)" stroke="rgba(34,211,238,.3)" stroke-width="1"/>
+              <text x="233" y="330" fill="#22D3EE" font-size="8" font-family="sans-serif">DATE</text>
+              <rect x="48" y="352" width="290" height="6" rx="1.5" fill="rgba(255,255,255,.07)"/>
+              <rect x="48" y="364" width="270" height="6" rx="1.5" fill="rgba(255,255,255,.07)"/>
+              <rect x="48" y="376" width="300" height="6" rx="1.5" fill="rgba(255,255,255,.07)"/>
+              <rect x="400" y="52" width="400" height="30" fill="rgba(255,255,255,.02)"/>
+              <line x1="400" y1="82" x2="800" y2="82" stroke="rgba(255,255,255,.06)" stroke-width="1"/>
+              <rect x="416" y="61" width="72" height="14" rx="4" fill="rgba(74,222,128,.12)"/>
+              <circle cx="420" cy="68" r="5" fill="rgba(74,222,128,.3)"/>
+              <text x="428" y="72" fill="#4ADE80" font-size="8.5" font-family="sans-serif">Extracted</text>
+              <text x="500" y="72" fill="#64748B" font-size="8.5" font-family="sans-serif">Confidence: 97.3%</text>
+              <rect x="600" y="64" width="90" height="8" rx="4" fill="rgba(255,255,255,.05)"/>
+              <rect x="600" y="64" width="87" height="8" rx="4" fill="#A78BFA" opacity=".7"/>
+              <text x="416" y="106" fill="#64748B" font-size="9" font-family="sans-serif">{</text>
+              <text x="424" y="124" fill="#64748B" font-size="9" font-family="sans-serif">"party_a":</text>
+              <rect x="494" y="113" width="178" height="20" rx="4" fill="rgba(167,139,250,.08)" stroke="rgba(167,139,250,.2)" stroke-width="1"/>
+              <text x="502" y="127" fill="#A78BFA" font-size="9" font-family="sans-serif">"Acme Technologies Inc."</text>
+              <rect x="679" y="113" width="28" height="14" rx="3" fill="rgba(74,222,128,.1)"/>
+              <text x="682" y="123" fill="#4ADE80" font-size="7.5" font-family="sans-serif">98%</text>
+              <text x="424" y="152" fill="#64748B" font-size="9" font-family="sans-serif">"party_b":</text>
+              <rect x="494" y="141" width="168" height="20" rx="4" fill="rgba(167,139,250,.08)" stroke="rgba(167,139,250,.2)" stroke-width="1"/>
+              <text x="502" y="155" fill="#A78BFA" font-size="9" font-family="sans-serif">"Global Ventures Ltd."</text>
+              <rect x="669" y="141" width="28" height="14" rx="3" fill="rgba(74,222,128,.1)"/>
+              <text x="672" y="151" fill="#4ADE80" font-size="7.5" font-family="sans-serif">96%</text>
+              <text x="424" y="180" fill="#64748B" font-size="9" font-family="sans-serif">"contract_value":</text>
+              <rect x="530" y="169" width="96" height="20" rx="4" fill="rgba(250,204,21,.08)" stroke="rgba(250,204,21,.2)" stroke-width="1"/>
+              <text x="538" y="183" fill="#FACC15" font-size="9" font-family="sans-serif">"$240,000 USD"</text>
+              <rect x="633" y="169" width="36" height="14" rx="3" fill="rgba(74,222,128,.1)"/>
+              <text x="636" y="179" fill="#4ADE80" font-size="7.5" font-family="sans-serif">99.1%</text>
+              <text x="424" y="208" fill="#64748B" font-size="9" font-family="sans-serif">"currency": <tspan fill="#FACC15">"USD"</tspan></text>
+              <text x="424" y="236" fill="#64748B" font-size="9" font-family="sans-serif">"start_date":</text>
+              <rect x="502" y="225" width="100" height="20" rx="4" fill="rgba(34,211,238,.08)" stroke="rgba(34,211,238,.2)" stroke-width="1"/>
+              <text x="510" y="239" fill="#22D3EE" font-size="9" font-family="sans-serif">"2026-01-01"</text>
+              <rect x="609" y="225" width="36" height="14" rx="3" fill="rgba(74,222,128,.1)"/>
+              <text x="612" y="235" fill="#4ADE80" font-size="7.5" font-family="sans-serif">97.8%</text>
+              <text x="424" y="264" fill="#64748B" font-size="9" font-family="sans-serif">"end_date":</text>
+              <rect x="498" y="253" width="100" height="20" rx="4" fill="rgba(34,211,238,.08)" stroke="rgba(34,211,238,.2)" stroke-width="1"/>
+              <text x="506" y="267" fill="#22D3EE" font-size="9" font-family="sans-serif">"2026-12-31"</text>
+              <text x="424" y="292" fill="#64748B" font-size="9" font-family="sans-serif">"jurisdiction": <tspan fill="#A78BFA">"Delaware"</tspan></text>
+              <text x="424" y="320" fill="#64748B" font-size="9" font-family="sans-serif">"clause_count": <tspan fill="#F8FAFC">42</tspan></text>
+              <text x="416" y="348" fill="#64748B" font-size="9" font-family="sans-serif">}</text>
+              <line x1="400" y1="368" x2="800" y2="368" stroke="rgba(255,255,255,.07)" stroke-width="1"/>
+              <text x="416" y="388" fill="#64748B" font-size="9" font-family="sans-serif" letter-spacing=".5">PROCESSING QUEUE</text>
+              <rect x="408" y="396" width="368" height="28" rx="6" fill="rgba(74,222,128,.06)" stroke="rgba(74,222,128,.15)" stroke-width="1"/>
+              <circle cx="420" cy="410" r="4" fill="#4ADE80"/>
+              <text x="430" y="414" fill="#CBD5E1" font-size="9" font-family="sans-serif">contract.pdf</text>
+              <text x="600" y="414" fill="#4ADE80" font-size="9" font-family="sans-serif">&#10003; Complete</text>
+              <text x="714" y="414" fill="#64748B" font-size="8.5" font-family="sans-serif">1.2s</text>
+              <rect x="408" y="430" width="368" height="28" rx="6" fill="rgba(167,139,250,.06)" stroke="rgba(167,139,250,.15)" stroke-width="1"/>
+              <circle cx="420" cy="444" r="4" fill="#A78BFA" opacity=".8"/>
+              <text x="430" y="448" fill="#CBD5E1" font-size="9" font-family="sans-serif">invoice_batch_042.pdf</text>
+              <text x="590" y="448" fill="#A78BFA" font-size="9" font-family="sans-serif">Processing...</text>
+              <rect x="680" y="439" width="72" height="8" rx="4" fill="rgba(255,255,255,.05)"/>
+              <rect x="680" y="439" width="54" height="8" rx="4" fill="#A78BFA" opacity=".6"/>
+              <rect x="408" y="464" width="368" height="28" rx="6" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.07)" stroke-width="1"/>
+              <circle cx="420" cy="478" r="4" fill="#64748B" opacity=".5"/>
+              <text x="430" y="482" fill="#64748B" font-size="9" font-family="sans-serif">form_w9_collection.pdf</text>
+              <text x="624" y="482" fill="#64748B" font-size="9" font-family="sans-serif">Queued</text>
+            </svg>
+          </div>
+          <div class="pj-arrow-btn">&#8599;</div>
+          <div class="pj-foot">
+            <div class="pj-tag">AI / LLM</div>
+            <div class="pj-title">FLUX — Document Intelligence</div>
+            <div class="pj-excerpt">RAG-powered extraction pipeline with multi-model routing and human review workflows at scale.</div>
+            <div class="pj-open">View details <span class="pj-open-dot">&#8599;</span></div>
+          </div>
+        </div>
+
+        <!-- ══ CORE ══ -->
+        <div class="pj" data-project="core">
+          <div class="pj-mockup-wrap">
+            <svg viewBox="0 0 800 512" xmlns="http://www.w3.org/2000/svg">
+              <rect width="800" height="512" fill="#050810"/>
+              <line x1="420" y1="0" x2="420" y2="512" stroke="rgba(255,255,255,.07)" stroke-width="1"/>
+              <rect x="0" y="0" width="420" height="30" fill="#111827"/>
+              <line x1="0" y1="30" x2="420" y2="30" stroke="rgba(255,255,255,.07)" stroke-width="1"/>
+              <circle cx="20" cy="15" r="5.5" fill="#FF5F57"/>
+              <circle cx="38" cy="15" r="5.5" fill="#FFBD2E"/>
+              <circle cx="56" cy="15" r="5.5" fill="#28CA41"/>
+              <text x="100" y="20" fill="#64748B" font-size="11" font-family="monospace" text-anchor="middle">core@doxa:~/project</text>
+              <rect x="0" y="30" width="420" height="482" fill="#020408"/>
+              <text x="14" y="56" fill="#4ADE80" font-size="9.5" font-family="monospace">&#10095;</text>
+              <text x="26" y="56" fill="#CBD5E1" font-size="9.5" font-family="monospace">core scaffold --template nextjs my-app</text>
+              <text x="14" y="74" fill="#64748B" font-size="9" font-family="monospace">  Creating project structure...</text>
+              <text x="14" y="88" fill="#4ADE80" font-size="9" font-family="monospace">  &#10003; Initialized git repository</text>
+              <text x="14" y="102" fill="#4ADE80" font-size="9" font-family="monospace">  &#10003; Installed 142 packages (8.2s)</text>
+              <text x="14" y="116" fill="#4ADE80" font-size="9" font-family="monospace">  &#10003; Configured TS, ESLint, Prettier</text>
+              <text x="14" y="130" fill="#4ADE80" font-size="9" font-family="monospace">  &#10003; Set up Docker + docker-compose</text>
+              <text x="14" y="144" fill="#FACC15" font-size="9" font-family="monospace">  &#8594; Project ready in ./my-app</text>
+              <text x="14" y="162" fill="#374151" font-size="9" font-family="monospace">&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;</text>
+              <text x="14" y="178" fill="#4ADE80" font-size="9.5" font-family="monospace">&#10095;</text>
+              <text x="26" y="178" fill="#CBD5E1" font-size="9.5" font-family="monospace">core deploy --env staging --watch</text>
+              <text x="14" y="196" fill="#22D3EE" font-size="9" font-family="monospace">  [1/5] Building Docker image...</text>
+              <text x="14" y="210" fill="#22D3EE" font-size="9" font-family="monospace">  [2/5] Pushing to registry...</text>
+              <text x="14" y="224" fill="#22D3EE" font-size="9" font-family="monospace">  [3/5] Updating K8s manifests...</text>
+              <text x="14" y="238" fill="#4ADE80" font-size="9" font-family="monospace">  [4/5] Rolling update: 3/3 pods &#10003;</text>
+              <text x="14" y="252" fill="#4ADE80" font-size="9" font-family="monospace">  [5/5] Health check passed &#10003;</text>
+              <rect x="14" y="260" width="210" height="18" rx="4" fill="rgba(74,222,128,.1)" stroke="rgba(74,222,128,.3)" stroke-width="1"/>
+              <text x="24" y="272" fill="#4ADE80" font-size="9" font-family="monospace">&#10003; Deployed to staging in 42s</text>
+              <text x="14" y="292" fill="#374151" font-size="9" font-family="monospace">&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;</text>
+              <text x="14" y="308" fill="#4ADE80" font-size="9.5" font-family="monospace">&#10095;</text>
+              <text x="26" y="308" fill="#CBD5E1" font-size="9.5" font-family="monospace">core monitor --service api-gateway</text>
+              <text x="14" y="326" fill="#64748B" font-size="9" font-family="monospace">  METRIC          VALUE       STATUS</text>
+              <text x="14" y="340" fill="#CBD5E1" font-size="9" font-family="monospace">  Requests/s      1,284</text>
+              <text x="234" y="340" fill="#4ADE80" font-size="9" font-family="monospace">OK</text>
+              <text x="14" y="354" fill="#CBD5E1" font-size="9" font-family="monospace">  P99 Latency     68ms</text>
+              <text x="234" y="354" fill="#4ADE80" font-size="9" font-family="monospace">OK</text>
+              <text x="14" y="368" fill="#CBD5E1" font-size="9" font-family="monospace">  Error Rate      0.02%</text>
+              <text x="234" y="368" fill="#4ADE80" font-size="9" font-family="monospace">OK</text>
+              <text x="14" y="382" fill="#CBD5E1" font-size="9" font-family="monospace">  Memory          62% (1.2GB)</text>
+              <text x="234" y="382" fill="#FACC15" font-size="9" font-family="monospace">WARN</text>
+              <text x="14" y="400" fill="#374151" font-size="9" font-family="monospace">&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;</text>
+              <text x="14" y="420" fill="#4ADE80" font-size="9.5" font-family="monospace">&#10095;</text>
+              <text x="26" y="420" fill="#CBD5E1" font-size="9.5" font-family="monospace">core rollback --to v1.2.3</text>
+              <text x="14" y="436" fill="#FACC15" font-size="9" font-family="monospace">  &#9888; Rollback: v1.2.5 &#8594; v1.2.3</text>
+              <text x="14" y="450" fill="#22D3EE" font-size="9" font-family="monospace">  Draining traffic...</text>
+              <rect x="228" y="440" width="8" height="12" rx="1" fill="#22D3EE" opacity=".9"/>
+              <rect x="420" y="0" width="380" height="42" fill="#0A0F1E"/>
+              <line x1="420" y1="42" x2="800" y2="42" stroke="rgba(255,255,255,.07)" stroke-width="1"/>
+              <text x="440" y="26" fill="#F8FAFC" font-size="12" font-weight="600" font-family="sans-serif">Deployment Dashboard</text>
+              <rect x="700" y="12" width="80" height="20" rx="6" fill="rgba(74,222,128,.1)" stroke="rgba(74,222,128,.2)" stroke-width="1"/>
+              <circle cx="710" cy="22" r="3" fill="#4ADE80"/>
+              <text x="717" y="26" fill="#4ADE80" font-size="9" font-family="sans-serif">All Systems</text>
+              <text x="440" y="64" fill="#64748B" font-size="9" font-family="sans-serif" letter-spacing=".5">PIPELINE &#8212; main &#8594; staging</text>
+              <rect x="434" y="74" width="60" height="36" rx="6" fill="rgba(74,222,128,.08)" stroke="rgba(74,222,128,.3)" stroke-width="1.5"/>
+              <text x="464" y="89" fill="#4ADE80" font-size="8.5" font-family="sans-serif" text-anchor="middle" font-weight="600">Build</text>
+              <text x="464" y="101" fill="#4ADE80" font-size="7.5" font-family="sans-serif" text-anchor="middle">&#10003; 18s</text>
+              <line x1="494" y1="92" x2="512" y2="92" stroke="#4ADE80" stroke-width="1.5"/>
+              <polygon points="510,88 518,92 510,96" fill="#4ADE80"/>
+              <rect x="518" y="74" width="60" height="36" rx="6" fill="rgba(74,222,128,.08)" stroke="rgba(74,222,128,.3)" stroke-width="1.5"/>
+              <text x="548" y="89" fill="#4ADE80" font-size="8.5" font-family="sans-serif" text-anchor="middle" font-weight="600">Test</text>
+              <text x="548" y="101" fill="#4ADE80" font-size="7.5" font-family="sans-serif" text-anchor="middle">&#10003; 24s</text>
+              <line x1="578" y1="92" x2="596" y2="92" stroke="#4ADE80" stroke-width="1.5"/>
+              <polygon points="594,88 602,92 594,96" fill="#4ADE80"/>
+              <rect x="602" y="74" width="64" height="36" rx="6" fill="rgba(34,211,238,.12)" stroke="#22D3EE" stroke-width="1.5"/>
+              <text x="634" y="89" fill="#22D3EE" font-size="8.5" font-family="sans-serif" text-anchor="middle" font-weight="600">Deploy</text>
+              <text x="634" y="101" fill="#22D3EE" font-size="7.5" font-family="sans-serif" text-anchor="middle">Running...</text>
+              <line x1="666" y1="92" x2="684" y2="92" stroke="rgba(255,255,255,.2)" stroke-width="1.5" stroke-dasharray="3 2"/>
+              <polygon points="682,88 690,92 682,96" fill="rgba(255,255,255,.2)"/>
+              <rect x="690" y="74" width="60" height="36" rx="6" fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.1)" stroke-width="1"/>
+              <text x="720" y="89" fill="#64748B" font-size="8.5" font-family="sans-serif" text-anchor="middle" font-weight="600">Live</text>
+              <text x="720" y="101" fill="#64748B" font-size="7.5" font-family="sans-serif" text-anchor="middle">Pending</text>
+              <text x="440" y="132" fill="#64748B" font-size="9" font-family="sans-serif" letter-spacing=".5">SERVICE HEALTH</text>
+              <rect x="428" y="140" width="352" height="306" rx="10" fill="rgba(255,255,255,.02)" stroke="rgba(255,255,255,.06)" stroke-width="1"/>
+              <line x1="428" y1="168" x2="780" y2="168" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
+              <circle cx="448" cy="156" r="5" fill="#4ADE80"/>
+              <text x="462" y="160" fill="#CBD5E1" font-size="10" font-family="sans-serif">api-gateway</text>
+              <text x="596" y="160" fill="#64748B" font-size="9" font-family="sans-serif">3 pods</text>
+              <text x="656" y="160" fill="#4ADE80" font-size="9" font-family="sans-serif">99.98%</text>
+              <text x="720" y="160" fill="#64748B" font-size="9" font-family="sans-serif">68ms p99</text>
+              <line x1="428" y1="194" x2="780" y2="194" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
+              <circle cx="448" cy="182" r="5" fill="#4ADE80"/>
+              <text x="462" y="186" fill="#CBD5E1" font-size="10" font-family="sans-serif">auth-service</text>
+              <text x="596" y="186" fill="#64748B" font-size="9" font-family="sans-serif">2 pods</text>
+              <text x="656" y="186" fill="#4ADE80" font-size="9" font-family="sans-serif">100%</text>
+              <text x="720" y="186" fill="#64748B" font-size="9" font-family="sans-serif">12ms p99</text>
+              <line x1="428" y1="220" x2="780" y2="220" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
+              <circle cx="448" cy="208" r="5" fill="#4ADE80"/>
+              <text x="462" y="212" fill="#CBD5E1" font-size="10" font-family="sans-serif">postgres-primary</text>
+              <text x="596" y="212" fill="#64748B" font-size="9" font-family="sans-serif">1 pod</text>
+              <text x="656" y="212" fill="#4ADE80" font-size="9" font-family="sans-serif">99.99%</text>
+              <text x="720" y="212" fill="#64748B" font-size="9" font-family="sans-serif">4ms p99</text>
+              <line x1="428" y1="246" x2="780" y2="246" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
+              <circle cx="448" cy="234" r="5" fill="#4ADE80"/>
+              <text x="462" y="238" fill="#CBD5E1" font-size="10" font-family="sans-serif">redis-cache</text>
+              <text x="596" y="238" fill="#64748B" font-size="9" font-family="sans-serif">2 pods</text>
+              <text x="656" y="238" fill="#4ADE80" font-size="9" font-family="sans-serif">99.97%</text>
+              <text x="720" y="238" fill="#64748B" font-size="9" font-family="sans-serif">0.8ms p99</text>
+              <line x1="428" y1="272" x2="780" y2="272" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
+              <circle cx="448" cy="260" r="5" fill="#FACC15"/>
+              <text x="462" y="264" fill="#CBD5E1" font-size="10" font-family="sans-serif">worker-queue</text>
+              <text x="596" y="264" fill="#64748B" font-size="9" font-family="sans-serif">1 pod</text>
+              <text x="656" y="264" fill="#FACC15" font-size="9" font-family="sans-serif">98.40%</text>
+              <text x="720" y="264" fill="#FACC15" font-size="9" font-family="sans-serif">HIGH MEM</text>
+              <line x1="428" y1="298" x2="780" y2="298" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
+              <circle cx="448" cy="286" r="5" fill="#4ADE80"/>
+              <text x="462" y="290" fill="#CBD5E1" font-size="10" font-family="sans-serif">file-storage-s3</text>
+              <text x="596" y="290" fill="#64748B" font-size="9" font-family="sans-serif">Managed</text>
+              <text x="656" y="290" fill="#4ADE80" font-size="9" font-family="sans-serif">99.99%</text>
+              <text x="720" y="290" fill="#64748B" font-size="9" font-family="sans-serif">AWS S3</text>
+              <line x1="428" y1="324" x2="780" y2="324" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
+              <circle cx="448" cy="312" r="5" fill="#4ADE80"/>
+              <text x="462" y="316" fill="#CBD5E1" font-size="10" font-family="sans-serif">cdn-cloudfront</text>
+              <text x="596" y="316" fill="#64748B" font-size="9" font-family="sans-serif">Managed</text>
+              <text x="656" y="316" fill="#4ADE80" font-size="9" font-family="sans-serif">99.99%</text>
+              <text x="720" y="316" fill="#64748B" font-size="9" font-family="sans-serif">24 POPs</text>
+              <rect x="428" y="458" width="352" height="56" rx="8" fill="rgba(255,255,255,.02)" stroke="rgba(255,255,255,.06)" stroke-width="1"/>
+              <text x="468" y="478" fill="#FACC15" font-size="18" font-weight="700" font-family="sans-serif">64</text>
+              <text x="460" y="494" fill="#64748B" font-size="9" font-family="sans-serif">Commands</text>
+              <text x="556" y="478" fill="#22D3EE" font-size="18" font-weight="700" font-family="sans-serif">3.2K</text>
+              <text x="548" y="494" fill="#64748B" font-size="9" font-family="sans-serif">Stars</text>
+              <text x="650" y="478" fill="#4ADE80" font-size="18" font-weight="700" font-family="sans-serif">800+</text>
+              <text x="646" y="494" fill="#64748B" font-size="9" font-family="sans-serif">Teams</text>
+              <text x="730" y="478" fill="#F8FAFC" font-size="18" font-weight="700" font-family="sans-serif">80%</text>
+              <text x="718" y="494" fill="#64748B" font-size="9" font-family="sans-serif">Faster</text>
+            </svg>
+          </div>
+          <div class="pj-arrow-btn">&#8599;</div>
+          <div class="pj-foot">
+            <div class="pj-tag">DevTools</div>
+            <div class="pj-title">CORE — CLI Developer Toolkit</div>
+            <div class="pj-excerpt">Scaffold, deploy, and monitor cloud-native apps from the terminal. 3K+ GitHub stars.</div>
+            <div class="pj-open">View details <span class="pj-open-dot">&#8599;</span></div>
+          </div>
+        </div>
+
+      </div><!-- /port-carousel-track -->
+    </div><!-- /port-carousel-outer -->
+
+    <div class="port-dots">
+      <div class="port-dot active" data-dot="0"></div>
+      <div class="port-dot" data-dot="1"></div>
+      <div class="port-dot" data-dot="2"></div>
+      <div class="port-dot" data-dot="3"></div>
+      <div class="port-dot" data-dot="4"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PROJECT DETAIL PANEL ═══ -->
+<div id="proj-panel">
+  <div class="pp-backdrop" id="pp-backdrop"></div>
+  <div class="pp-panel">
+    <button class="pp-close" id="pp-close" aria-label="Close panel">&#x2715;</button>
+    <div class="pp-mockup" id="pp-mockup"></div>
+    <div class="pp-content">
+      <div class="pp-cat-badge" id="pp-cat"></div>
+      <h3 class="pp-title" id="pp-title"></h3>
+      <p class="pp-desc" id="pp-desc"></p>
+      <div class="pp-metrics" id="pp-metrics"></div>
+      <div class="pp-section-l">Tech Stack</div>
+      <div class="pp-tech" id="pp-tech"></div>
+      <a href="#cta" class="pp-cta" id="pp-cta" onclick="closePanel();return false;">
+        Start a Similar Project
+        <svg width="16" height="16" viewBox="0 0 18 18" fill="none"><path d="M3.75 9h10.5M10.5 5.25L14.25 9l-3.75 3.75" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ CTA ═══ -->
+<section id="cta">
+  <div class="cta-halo"></div>
+  <div class="wrap cta-inner reveal">
+    <div class="cta-badge">◆ Limited spots available Q2 2026</div>
+    <h2>Ready to build <span class="grad-text">something legendary?</span></h2>
+    <p>We partner with a small number of ambitious teams each quarter. Tell us about your vision — we'll tell you how we'd build it.</p>
+    <a href="mailto:hello@doxa.studio" class="btn-grad">
+      Start Your Project
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3.75 9h10.5M10.5 5.25L14.25 9l-3.75 3.75" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+    <div class="cta-trust">
+      <div class="cta-trust-item">Usually respond in &lt; 24h</div>
+      <div class="cta-trust-item">No commitment required</div>
+      <div class="cta-trust-item">Fixed-price or retainer</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="fg-brand">
+        <div class="logo">DOXA</div>
+        <p>Premium digital agency building SaaS platforms, developer tools, and creative digital experiences for ambitious startups worldwide.</p>
+        <div class="fg-socials">
+          <div class="soc">𝕏</div>
+          <div class="soc">in</div>
+          <div class="soc">gh</div>
+          <div class="soc">dr</div>
+        </div>
+      </div>
+      <div class="fg-col">
+        <h5>Services</h5>
+        <ul>
+          <li><a href="#">Product Engineering</a></li>
+          <li><a href="#">UI/UX Design</a></li>
+          <li><a href="#">AI Integration</a></li>
+          <li><a href="#">Cloud Infra</a></li>
+          <li><a href="#">Mobile Dev</a></li>
+        </ul>
+      </div>
+      <div class="fg-col">
+        <h5>Company</h5>
+        <ul>
+          <li><a href="#">About DOXA</a></li>
+          <li><a href="#">Our Process</a></li>
+          <li><a href="#">Case Studies</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Blog</a></li>
+        </ul>
+      </div>
+      <div class="fg-col">
+        <h5>Contact</h5>
+        <ul>
+          <li><a href="mailto:hello@doxa.studio">hello@doxa.studio</a></li>
+          <li><a href="#">Book a Discovery Call</a></li>
+          <li><a href="#">Start a Project</a></li>
+          <li><a href="#">Partnership</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 DOXA Studio, Inc. All rights reserved.</p>
+      <div class="footer-badge">
+        <div class="fb-status">
+          <div class="status-dot"></div>
+          All systems operational
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ══ Custom Cursor
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursor-ring');
+let mx = 0, my = 0, rx = 0, ry = 0;
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+function animateCursor(){
+  rx += (mx - rx) * 0.12;
+  ry += (my - ry) * 0.12;
+  cursor.style.left = mx + 'px';
+  cursor.style.top = my + 'px';
+  ring.style.left = rx + 'px';
+  ring.style.top = ry + 'px';
+  requestAnimationFrame(animateCursor);
+}
+animateCursor();
+document.querySelectorAll('a,button,.svc,.pj,.pill,.feat,.vcard,.step').forEach(el => {
+  el.addEventListener('mouseenter', () => { ring.style.width='60px'; ring.style.height='60px'; });
+  el.addEventListener('mouseleave', () => { ring.style.width='40px'; ring.style.height='40px'; });
+});
+
+// ══ Nav Scroll
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 60);
+});
+
+// ══ Scroll Reveal
+const obs = new IntersectionObserver(entries => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('in'), i * 100);
+    }
+  });
+}, { threshold: 0.12, rootMargin: '0px 0px -50px 0px' });
+document.querySelectorAll('.reveal,.reveal-left,.reveal-right').forEach(el => obs.observe(el));
+
+// ══ Parallax on orbs
+document.addEventListener('mousemove', e => {
+  const x = (e.clientX / window.innerWidth - 0.5) * 30;
+  const y = (e.clientY / window.innerHeight - 0.5) * 20;
+  document.querySelector('.orb1').style.transform = `translate(${x*.8}px,${y*.8}px)`;
+  document.querySelector('.orb2').style.transform = `translate(${-x*.5}px,${-y*.5}px)`;
+  document.querySelector('.orb3').style.transform = `translate(${x*.3}px,${y*.3}px)`;
+});
+
+// ══ Animate bars on scroll (hero dashboard)
+const heroSection = document.getElementById('hero');
+const barObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      document.querySelectorAll('.bar-g,.bar-c').forEach(b => {
+        b.style.height = b.style.height; // trigger reflow
+      });
+    }
+  });
+}, { threshold: .3 });
+barObs.observe(heroSection);
+
+// ══ Code editor tab switching
+document.querySelectorAll('.etab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.etab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+  });
+});
+
+// ══ Counter animation
+function animateValue(el, target, suffix = '') {
+  let start = 0;
+  const step = target / 60;
+  const timer = setInterval(() => {
+    start += step;
+    if (start >= target) { start = target; clearInterval(timer); }
+    el.textContent = Math.floor(start).toLocaleString() + suffix;
+  }, 16);
+}
+const counterObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      counterObs.unobserve(e.target);
+      e.target.querySelectorAll('[data-count]').forEach(el => {
+        animateValue(el, parseInt(el.dataset.count), el.dataset.suffix || '');
+      });
+    }
+  });
+}, { threshold: .3 });
+
+// ══ Service cards interactive number glow
+document.querySelectorAll('.svc').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const rect = card.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width * 100).toFixed(1);
+    const y = ((e.clientY - rect.top) / rect.height * 100).toFixed(1);
+    card.style.setProperty('--mx', x + '%');
+    card.style.setProperty('--my', y + '%');
+  });
+});
+
+// ══ Portfolio Carousel
+const pjTrack = document.getElementById('port-track');
+const pjPrev  = document.getElementById('port-prev');
+const pjNext  = document.getElementById('port-next');
+const pjDots  = document.querySelectorAll('.port-dot');
+
+function pjCardW() {
+  const c = pjTrack.querySelector('.pj');
+  return c ? c.offsetWidth + 22 : 422;
+}
+function pjUpdate() {
+  const idx = Math.round(pjTrack.scrollLeft / pjCardW());
+  pjDots.forEach((d, i) => d.classList.toggle('active', i === idx));
+  pjPrev.disabled = idx === 0;
+  pjNext.disabled = idx >= pjDots.length - 1;
+}
+pjPrev.addEventListener('click', () => {
+  pjTrack.scrollBy({ left: -pjCardW(), behavior: 'smooth' });
+  setTimeout(pjUpdate, 420);
+});
+pjNext.addEventListener('click', () => {
+  pjTrack.scrollBy({ left: pjCardW(), behavior: 'smooth' });
+  setTimeout(pjUpdate, 420);
+});
+pjTrack.addEventListener('scroll', () => requestAnimationFrame(pjUpdate));
+pjDots.forEach((d, i) => d.addEventListener('click', () => {
+  pjTrack.scrollTo({ left: i * pjCardW(), behavior: 'smooth' });
+  setTimeout(pjUpdate, 420);
+}));
+
+// Drag-to-scroll
+let isDrag = false, dragX = 0, dragScroll = 0;
+pjTrack.addEventListener('pointerdown', e => {
+  isDrag = true; dragX = e.clientX; dragScroll = pjTrack.scrollLeft;
+  pjTrack.setPointerCapture(e.pointerId);
+});
+pjTrack.addEventListener('pointermove', e => {
+  if (isDrag) pjTrack.scrollLeft = dragScroll - (e.clientX - dragX);
+});
+pjTrack.addEventListener('pointerup', () => { isDrag = false; setTimeout(pjUpdate, 50); });
+
+pjUpdate();
+
+// ══ Project detail panel data
+const PROJ_DATA = {
+  nova: {
+    cat: 'SaaS Platform',
+    title: 'NOVA — Analytics Platform',
+    desc: 'Full-stack analytics SaaS with real-time dashboards, AI-powered insights, and a white-label API tier. Built for high-growth B2B teams that run entirely on data.',
+    metrics: [
+      { l: 'MRR', v: '$182K', c: 'var(--gold)' },
+      { l: 'Users', v: '12.8K', c: 'var(--cyan)' },
+      { l: 'Uptime', v: '99.9%', c: '#4ADE80' }
+    ],
+    stack: ['Next.js', 'TypeScript', 'PostgreSQL', 'Redis', 'AWS', 'Recharts']
+  },
+  arc: {
+    cat: 'Web3 / DeFi',
+    title: 'ARC — DeFi Portfolio Tracker',
+    desc: 'Multi-chain DeFi analytics with real-time wallet aggregation, protocol risk scoring, and automated rebalancing across 8 blockchain networks.',
+    metrics: [
+      { l: 'Chains', v: '8', c: 'var(--cyan)' },
+      { l: 'TVL', v: '$2.4M', c: 'var(--gold)' },
+      { l: 'Users', v: '4.2K', c: '#A78BFA' }
+    ],
+    stack: ['React', 'Ethers.js', 'The Graph', 'Node.js', 'Alchemy API', 'Tailwind']
+  },
+  veil: {
+    cat: 'Cybersecurity',
+    title: 'VEIL — Zero-Trust Console',
+    desc: 'Enterprise-grade zero-trust access platform with identity mesh, real-time threat detection, and policy-as-code enforcement across cloud and on-prem environments.',
+    metrics: [
+      { l: 'Threats Blocked', v: '99.99%', c: '#F87171' },
+      { l: 'Policies', v: '1.2K', c: 'var(--gold)' },
+      { l: 'Sessions/day', v: '18K', c: 'var(--cyan)' }
+    ],
+    stack: ['Go', 'Rust', 'React', 'Kubernetes', 'HashiCorp Vault', 'SPIFFE']
+  },
+  flux: {
+    cat: 'AI / LLM',
+    title: 'FLUX — Document Intelligence',
+    desc: 'RAG-powered document processing pipeline with structured data extraction, multi-model routing, and human-in-the-loop review workflows at 50K documents per day.',
+    metrics: [
+      { l: 'Accuracy', v: '97.3%', c: '#A78BFA' },
+      { l: 'Docs/day', v: '50K', c: 'var(--gold)' },
+      { l: 'Latency', v: '<2s', c: 'var(--cyan)' }
+    ],
+    stack: ['Python', 'LangChain', 'Claude API', 'FastAPI', 'Qdrant', 'React']
+  },
+  core: {
+    cat: 'Open Source',
+    title: 'CORE — CLI Developer Toolkit',
+    desc: 'Unified CLI for scaffolding, deploying, and monitoring cloud-native applications. Reduces time-to-deploy by 80%. 3K+ GitHub stars, used by 800+ engineering teams worldwide.',
+    metrics: [
+      { l: 'GitHub Stars', v: '3.2K', c: 'var(--gold)' },
+      { l: 'Teams', v: '800+', c: 'var(--cyan)' },
+      { l: 'Commands', v: '64', c: '#4ADE80' }
+    ],
+    stack: ['Rust', 'Node.js', 'Docker', 'Kubernetes', 'Terraform', 'Go']
+  }
+};
+
+function openPanel(key) {
+  const d = PROJ_DATA[key];
+  if (!d) return;
+  const card = document.querySelector(`.pj[data-project="${key}"]`);
+  document.getElementById('pp-cat').textContent   = d.cat;
+  document.getElementById('pp-title').textContent = d.title;
+  document.getElementById('pp-desc').textContent  = d.desc;
+  document.getElementById('pp-metrics').innerHTML = d.metrics.map(m =>
+    `<div class="pp-metric"><div class="pp-metric-l">${m.l}</div><div class="pp-metric-v" style="color:${m.c}">${m.v}</div></div>`
+  ).join('');
+  document.getElementById('pp-tech').innerHTML = d.stack.map(t =>
+    `<span class="pp-pill">${t}</span>`
+  ).join('');
+  const mw = card && card.querySelector('.pj-mockup-wrap');
+  document.getElementById('pp-mockup').innerHTML = mw ? mw.innerHTML : '';
+  document.getElementById('proj-panel').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closePanel() {
+  document.getElementById('proj-panel').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.querySelectorAll('.pj').forEach(c =>
+  c.addEventListener('click', () => openPanel(c.dataset.project))
+);
+document.getElementById('pp-close').addEventListener('click', closePanel);
+document.getElementById('pp-backdrop').addEventListener('click', closePanel);
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closePanel(); });
+
+// Extend cursor hover to new interactive elements
+document.querySelectorAll('.pp-close,.pp-pill,.pp-cta,.port-arrow,.port-dot').forEach(el => {
+  el.addEventListener('mouseenter', () => { ring.style.width = '60px'; ring.style.height = '60px'; });
+  el.addEventListener('mouseleave', () => { ring.style.width = '40px'; ring.style.height = '40px'; });
+});
+</script>
+</body>
+</html>
